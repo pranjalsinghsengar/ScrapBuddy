@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879855874094",
+    "project_id": "scrapbuddyapi",
+    "storage_bucket": "scrapbuddyapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879855874094:android:3a65230f549dc695036fbf",
+        "android_client_info": {
+          "package_name": "com.scrapbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879855874094-gehu7vdc6lj1o0fuu07p2fs4g3avbfo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClh4zwLyOPuXOsRyB7LzrXvvJMOowwt30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879855874094-gehu7vdc6lj1o0fuu07p2fs4g3avbfo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
