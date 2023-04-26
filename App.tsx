@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {SafeAreaView, StyleSheet, Text,View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomNav from './BottomNav';
@@ -41,19 +41,16 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-  
-          {/* <BottomNav /> */}
-    
-          {/* <Form /> */}
+        {/* <BottomNav /> */}
 
+        {/* <Form /> */}
 
-
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="DummyData" component={DummyData} />
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="BottomNav" component={BottomNav} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

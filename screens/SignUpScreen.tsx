@@ -10,53 +10,40 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import Form from './Form';
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
+  const [bio, setBio] = useState('');
+  const [phoneNo, setPhoneNo] = useState('');
+const [userId, setUserId] = useState(null)
 
-  const HandleSignUp = () => {
+
+  const HandleSignUp = async () => {
     if ((email, password)) {
       if (password.length < 8) {
         Alert.alert('Password is more than 7');
       }
 
-      useEffect(() => {
-        // const reference = database().ref('/users/123').push();
-        firebase
-          .database()
-          .ref('Users/')
-          .set({
-            email,
-          })
-          .then(data => {
-            //success callback
-            console.log('data ', data);
-          })
-          .catch(error => {
-            //error callback
-            console.log('error ', error);
-          });
-      });
-
-      auth()
+      
+      await firebase
+        .auth()
         .createUserWithEmailAndPassword(email, password)
-
+        // var user = {
+        //   name: userName,
+        //   phone: phoneNo,
+        //   bio: bio,
+        //   uid: userAuth.uid,
+        //   email: userAuth.email,
+        // }
+        // writeUserData(user)
         .then(() => {
-          // reference
-          //   .ref('users')
-          //   .push({
-          //     email: email,
-          //   })
-          //   .then(() => {
-          //     console.log('Data sent successfully');
-          //   })
-          //   .catch(error => {
-          //     console.error('Error sending data: ', error);
-          //   });
+          console.log('User account created & signed in!');
+          // console.log('userId' + user.userId);
 
           navigation.navigate('Form');
-          console.log('User account created & signed in!');
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -71,6 +58,29 @@ const SignUpScreen = ({navigation}) => {
 
           console.error(error);
         });
+      firebase.auth().onAuthStateChanged(user => {
+        setUserId(user.uid);
+        console.log(userId);
+        // console.log(user.uid);
+        console.log(user.email);
+      });
+      try {
+        const responce = await database()
+          .ref(`/users/${userId}`)
+          .set({
+            user_Name: userName,
+            user_mail: email,
+            user_pass: password,
+            uid: userId,
+          })
+          .then(() => {
+            console.log('UserID: ' + userId);
+            console.log('responce:' + responce);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+
     }
   };
 
@@ -81,6 +91,26 @@ const SignUpScreen = ({navigation}) => {
         <Text onPress={() => navigation.navigate('SignInScreen')}>back</Text>
       </View>
       <Text style={styles.title}>Sign Up</Text>
+      {/* Form */}
+      <TextInput
+        onChangeText={e => setUserName(e)}
+        value={userName}
+        placeholder="Full Name"
+        style={styles.input}
+      />
+      <TextInput
+        onChangeText={e => setBio(e)}
+        value={bio}
+        placeholder="Bio"
+        style={styles.input}
+      />
+      <TextInput
+        onChangeText={e => setPhoneNo(e)}
+        value={phoneNo}
+        placeholder="Organisation Number"
+        style={styles.input}
+        keyboardType="numeric"
+      />
       <TextInput
         keyboardType="email-address"
         style={styles.input}
@@ -95,7 +125,7 @@ const SignUpScreen = ({navigation}) => {
         onChangeText={e => setPassword(e)}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={()=>HandleSignUp}>
+      <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>

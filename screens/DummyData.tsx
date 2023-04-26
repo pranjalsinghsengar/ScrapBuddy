@@ -12,37 +12,77 @@ import {
 } from 'react-native';
 
 const DummyData = () => {
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [listdummyData, setListDummyData] = useState(null);
+const [userId, setUserId] = useState(null)
 
-  const [dummyData, setDummyData] = useState('');
+  useEffect(() => {
+    FetchData();
+  }, []);
 
-useEffect(()=>{
-    HandleSignUp();
-},[])
-
-  const HandleSignUp = async () => {
+  const FetchData = async () => {
     try {
-      const data = await database().ref('users/1').once('value');
+      const data = await database().ref(`users/`).once('value');
+      setListDummyData(data.val());
       console.log(data);
-      setDummyData(data.val())
     } catch (e) {
       console.log(e);
     }
   };
 
+   firebase.auth().onAuthStateChanged(user => {
+    setUserId(user.uid)
+    console.log(userId);
+    // console.log(user.uid);
+    console.log(user.email);
+  });
+  
+  const SignUp = async () => {
+    try {
+      const responce = await database()
+        .ref(`/users/${userId}`)
+        .set({
+          user_Name: userName,
+          user_mail: email,
+          user_pass: password,
+          uid: userId,
+        })
+        .then(() => {
+          console.log('UserID: ' + userId);
+          console.log('responce:' + responce);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // console.log('stored is : ' + listdummyData);
+
+  // const List = dummyData.ma
+
   return (
     <View style={styles.container}>
-
-<Text>{dummyData} </Text>
-<Text>{email} </Text>
-<Text>{password} </Text>
+      {/* {listdummyData.map } */}
+      <Text style={styles.title}>
+        {listdummyData ? listdummyData.user_Name : 'looding'}
+        {listdummyData ? listdummyData.user_mail : 'looding'}
+        {/* {listdummyData ? listdummyData.b : 'looding'} */}
+        {/* email data is: {listdummyData.e} */}
+        {/* {listdummyData} */}
+      </Text>
       <Text style={styles.title}>Dummy Data</Text>
       <TextInput
         // keyboardType="email-address"
         style={styles.input}
+        placeholder="User name"
+        onChangeText={e => setUserName(e)}
+      />
+      <TextInput
+        // keyboardType="email-address"
+        style={styles.input}
         placeholder="Email"
-        value={email}
         onChangeText={e => setEmail(e)}
       />
       <TextInput
@@ -52,7 +92,7 @@ useEffect(()=>{
         onChangeText={e => setPassword(e)}
         // secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={() => HandleSignUp}>
+      <TouchableOpacity style={styles.button} onPress={() => SignUp()}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
