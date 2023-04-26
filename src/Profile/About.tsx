@@ -1,9 +1,27 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 
 
 
-const About = () => {
+const About = ({route,navigation}) => {
+  const {userIdRef} = route.params;
+  const [listdummyData, setListDummyData] = useState(null);
+
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  const FetchData = async () => {
+    try {
+      const data = await database().ref(`users/${userIdRef}`).once('value');
+      setListDummyData(data.val());
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <View style={styles.about_container}>
       <View style={styles.about_innerContainer}>
@@ -14,7 +32,7 @@ const About = () => {
       </View>
 
       <View style={{left:10}}>
-        <Text style={styles.about_name}>Organisation Name</Text>
+        <Text style={styles.about_name}>{listdummyData.user_Name} </Text>
         <Text style={styles.about_bio}>Bio</Text>
 
       </View>

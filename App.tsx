@@ -9,14 +9,22 @@ import SignInScreen from './screens/SignInScreen';
 import Form from './screens/Form';
 import auth from '@react-native-firebase/auth';
 import DummyData from './screens/DummyData';
+import About from './src/Profile/About';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  // constructor(props){
+  //   super(props)
+  //   this.state= {
+
+  //   }
+  // }
   // const  = useContext(AuthContext);
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  // const [userId, setUserId] = useState(null);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -31,13 +39,11 @@ const App = () => {
 
   if (initializing) return null;
 
-  // if (!user) {
-  //   return (
-  //     <View>
-  //       <Text>Login</Text>
-  //     </View>
-  //   );
-  // }
+  // ============================================================================================
+
+
+  // ============================================================================================
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -45,6 +51,7 @@ const App = () => {
 
         {/* <Form /> */}
 
+        <Stack.Screen name="About" component={About} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="DummyData" component={DummyData} />
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />

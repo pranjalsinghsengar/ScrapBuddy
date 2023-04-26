@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import database, {firebase} from '@react-native-firebase/database';
 
 import auth from '@react-native-firebase/auth';
@@ -18,8 +18,14 @@ const SignUpScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
-const [userId, setUserId] = useState(null)
-
+  const [userId, setUserId] = useState(null);
+  const userIdRef = useRef(null);
+  // constructor() {
+  //   super();
+  // }
+  useEffect(() => {
+    userIdRef.current = userId;
+  }, [userId]);
 
   const HandleSignUp = async () => {
     if ((email, password)) {
@@ -27,23 +33,17 @@ const [userId, setUserId] = useState(null)
         Alert.alert('Password is more than 7');
       }
 
-      
       await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        // var user = {
-        //   name: userName,
-        //   phone: phoneNo,
-        //   bio: bio,
-        //   uid: userAuth.uid,
-        //   email: userAuth.email,
-        // }
-        // writeUserData(user)
         .then(() => {
           console.log('User account created & signed in!');
           // console.log('userId' + user.userId);
 
-          navigation.navigate('Form');
+          navigation.navigate('BottomNav', {
+            screen: 'About',
+            params :{setUserId: setUserId, userIdRef: userIdRef.current}
+          });
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -58,29 +58,34 @@ const [userId, setUserId] = useState(null)
 
           console.error(error);
         });
-      firebase.auth().onAuthStateChanged(user => {
+      await firebase.auth().onAuthStateChanged(user => {
         setUserId(user.uid);
-        console.log(userId);
         // console.log(user.uid);
         console.log(user.email);
       });
+
+      await setTimeout(() => {
+        Alert.alert('Alert Shows After 5 Seconds of Delay.');
+      }, 5000);
+      // if (userIdRef.current) {
+      console.log('userId_1: ' + userIdRef.current);
       try {
-        const responce = await database()
-          .ref(`/users/${userId}`)
+        await database()
+          .ref(`/users/${userIdRef.current}`)
           .set({
             user_Name: userName,
             user_mail: email,
             user_pass: password,
-            uid: userId,
+            uid: userIdRef.current,
           })
           .then(() => {
-            console.log('UserID: ' + userId);
-            console.log('responce:' + responce);
+            console.log('UserID: ' + userIdRef.current);
+            // console.log('responce:' + responce);
           });
       } catch (e) {
         console.log(e);
       }
-
+      // }
     }
   };
 
@@ -91,6 +96,9 @@ const [userId, setUserId] = useState(null)
         <Text onPress={() => navigation.navigate('SignInScreen')}>back</Text>
       </View>
       <Text style={styles.title}>Sign Up</Text>
+      {/* <Text style={styles.title}>{userIdRef}</Text> */}
+      <Text style={styles.title}>{userIdRef.current}</Text>
+      {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
       {/* Form */}
       <TextInput
         onChangeText={e => setUserName(e)}

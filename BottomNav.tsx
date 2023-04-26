@@ -9,7 +9,8 @@ import Upload from './src/Upload/Upload';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const BottomNav = () => {
+const BottomNav = ({route,navigation}) => {
+  const {userId, setUserId } = route.params;
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -39,11 +40,13 @@ const BottomNav = () => {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        // initialParams={userId,}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
+          
         }}
       />
     </Tab.Navigator>
