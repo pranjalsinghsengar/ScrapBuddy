@@ -19,22 +19,25 @@ const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const [bio, setBio] = useState('');
+  const [userbio, setUserBio] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
-  // const [userId, setUserId] = useState(null);
-  // const userIdRef = useRef(null);
+  const [userIdSignup, setUserIdSignup] = useState(null);
+  const userIdSignupRef = useRef(null);
 
-  const {userId, setUserId, userIdRef} = useGobalContext();
+  // const {userId, setUserId, userIdRef} = useGobalContext();
 
   useEffect(() => {
-    userIdRef.current = userId;
-  }, [userId]);
+    userIdSignupRef.current = userIdSignup;
+  }, [userIdSignup]);
 
   const HandleSignUp = async () => {
-    if ((email, password)) {
-      if (password.length < 8) {
-        Alert.alert('Password is more than 7');
-      }
+    if (password.length >= 8 && userName && email && userbio && phoneNo) {
+      await firebase.auth().onAuthStateChanged(user => {
+        console.log('Signup_UID: ', user.uid);
+        console.log(user.email);
+
+        setUserIdSignup(user.uid);
+      });
 
       await firebase
         .auth()
@@ -64,95 +67,95 @@ const SignUpScreen = ({navigation}) => {
 
           console.error(error);
         });
-      // await firebase.auth().onAuthStateChanged(user => {
-      //   setUserId(user.uid);
-      //   // console.log(user.uid);
-      //   console.log(user.email);
-      // });
 
       await setTimeout(() => {
-        Alert.alert('Alert Shows After 5 Seconds of Delay.');
-      }, 5000);
-      // if (userIdRef.current) {
-      console.log('userId_1: ' + userIdRef.current);
+        // Alert.alert('Alert Shows After 5 Seconds of Delay.');
+      }, 3000);
       try {
+        console.log('UserID12: ' + userIdSignupRef.current);
         await database()
-          .ref(`/users/${userIdRef.current}`)
+          .ref(`/users/${userIdSignupRef.current}`)
           .set({
             user_Name: userName,
-            user_Bio: bio,
+            user_Bio: userbio,
             user_mail: email,
             user_Phone: phoneNo,
             user_pass: password,
-            uid: userIdRef.current,
+            uid: userIdSignupRef.current,
           })
           .then(() => {
-            console.log('UserID: ' + userIdRef.current);
+            console.log('UserID: ' + userIdSignupRef.current);
             // console.log('responce:' + responce);
           });
       } catch (e) {
         console.log(e);
       }
-      // }
+
+      // if (userIdRef.current) {
+      console.log('userId_1_Current: ' + userIdSignupRef.current);
+      console.log('userId_1: ' + userIdSignup);
+    } else {
+      Alert.alert('Fill All Detail Correctly', 'Password Will be more than 8');
     }
   };
 
   return (
-    <ContextInfo.Provider
-      value={{setUserId: setUserId, userIdRef: userIdRef.current}}>
-      <View style={styles.container}>
-        {/* BAck */}
-        <View style={{position: 'absolute', left: 20, top: 20}}>
-          <Text style={{color:"black"}} onPress={() => navigation.navigate('SignInScreen')}>back</Text>
-        </View>
-        <Text style={styles.title}>Sign Up</Text>
-        {/* <Text style={styles.title}>{userIdRef}</Text> */}
-        <Text style={styles.title}>{userIdRef.current}</Text>
-        {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
-        {/* Form */}
-        <TextInput
-          onChangeText={e => setUserName(e)}
-          value={userName}
-          placeholderTextColor="black"
-          placeholder="Full Name"
-          style={styles.input}
-        />
-        <TextInput
-          onChangeText={e => setBio(e)}
-          value={bio}
-          placeholderTextColor="black"
-          placeholder="Bio"
-          style={styles.input}
-        />
-        <TextInput
-          onChangeText={e => setPhoneNo(e)}
-          value={phoneNo}
-          placeholderTextColor="black"
-          placeholder="Phone Number"
-          style={styles.input}
-          keyboardType="numeric"
-        />
-        <TextInput
-          keyboardType="email-address"
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="black"
-          value={email}
-          onChangeText={e => setEmail(e)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="black"
-          value={password}
-          onChangeText={e => setPassword(e)}
-          secureTextEntry
-        />
-        <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      {/* BAck */}
+      <View style={{position: 'absolute', left: 20, top: 20}}>
+        <Text
+          style={{color: 'black'}}
+          onPress={() => navigation.navigate('SignInScreen')}>
+          back
+        </Text>
       </View>
-    </ContextInfo.Provider>
+      <Text style={styles.title}>Sign Up</Text>
+      {/* <Text style={styles.title}>{userIdRef}</Text> */}
+      <Text style={styles.title}>{userIdSignupRef.current}</Text>
+      {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
+      {/* Form */}
+      <TextInput
+        onChangeText={e => setUserName(e)}
+        value={userName}
+        placeholderTextColor="black"
+        placeholder="Full Name"
+        style={styles.input}
+      />
+      <TextInput
+        onChangeText={e => setUserBio(e)}
+        value={userbio}
+        placeholderTextColor="black"
+        placeholder="Bio"
+        style={styles.input}
+      />
+      <TextInput
+        onChangeText={e => setPhoneNo(e)}
+        value={phoneNo}
+        placeholderTextColor="black"
+        placeholder="Phone Number"
+        style={styles.input}
+        keyboardType="numeric"
+      />
+      <TextInput
+        keyboardType="email-address"
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="black"
+        value={email}
+        onChangeText={e => setEmail(e)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="black"
+        value={password}
+        onChangeText={e => setPassword(e)}
+        secureTextEntry
+      />
+      <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -168,7 +171,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
     marginBottom: 30,
-    
   },
   input: {
     borderWidth: 1,

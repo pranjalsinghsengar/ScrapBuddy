@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
+    color:"black",
   },
   innercontainer: {
     flex: 1,
@@ -35,12 +36,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:"black",
+
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
-  },
+    color:"black",
+    
+  }, 
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
