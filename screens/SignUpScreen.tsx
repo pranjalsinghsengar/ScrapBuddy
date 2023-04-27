@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import Form from './Form';
-import { useGobalContext } from './GlobalContext';
+import {useGobalContext} from './GlobalContext';
 
 export const ContextInfo = React.createContext();
 
@@ -24,8 +24,8 @@ const SignUpScreen = ({navigation}) => {
   // const [userId, setUserId] = useState(null);
   // const userIdRef = useRef(null);
 
-  const {userId, setUserId,userIdRef} = useGobalContext();
-  
+  const {userId, setUserId, userIdRef} = useGobalContext();
+
   useEffect(() => {
     userIdRef.current = userId;
   }, [userId]);
@@ -44,7 +44,7 @@ const SignUpScreen = ({navigation}) => {
           // console.log('userId' + user.userId);
 
           navigation.navigate(
-            'BottomNav',
+            'SignInScreen',
             // , {
             //   screen: 'About',
             //   params: {setUserId, userIdRef},
@@ -103,7 +103,7 @@ const SignUpScreen = ({navigation}) => {
       <View style={styles.container}>
         {/* BAck */}
         <View style={{position: 'absolute', left: 20, top: 20}}>
-          <Text onPress={() => navigation.navigate('SignInScreen')}>back</Text>
+          <Text style={{color:"black"}} onPress={() => navigation.navigate('SignInScreen')}>back</Text>
         </View>
         <Text style={styles.title}>Sign Up</Text>
         {/* <Text style={styles.title}>{userIdRef}</Text> */}
@@ -113,18 +113,21 @@ const SignUpScreen = ({navigation}) => {
         <TextInput
           onChangeText={e => setUserName(e)}
           value={userName}
+          placeholderTextColor="black"
           placeholder="Full Name"
           style={styles.input}
         />
         <TextInput
           onChangeText={e => setBio(e)}
           value={bio}
+          placeholderTextColor="black"
           placeholder="Bio"
           style={styles.input}
         />
         <TextInput
           onChangeText={e => setPhoneNo(e)}
           value={phoneNo}
+          placeholderTextColor="black"
           placeholder="Phone Number"
           style={styles.input}
           keyboardType="numeric"
@@ -133,12 +136,14 @@ const SignUpScreen = ({navigation}) => {
           keyboardType="email-address"
           style={styles.input}
           placeholder="Email"
+          placeholderTextColor="black"
           value={email}
           onChangeText={e => setEmail(e)}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="black"
           value={password}
           onChangeText={e => setPassword(e)}
           secureTextEntry
@@ -160,8 +165,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    color: 'black',
     fontWeight: 'bold',
     marginBottom: 30,
+    
   },
   input: {
     borderWidth: 1,
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
+    color: 'black',
   },
   button: {
     backgroundColor: '#007AFF',

@@ -53,13 +53,13 @@ const App = () => {
 
           {/* <Form /> */}
 
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen name="About" component={About} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} />
           <Stack.Screen name="PickImage" component={PickImage} />
           <Stack.Screen name="DummyData" component={DummyData} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
           <Stack.Screen name="Form" component={Form} />
         </Stack.Navigator>
       </NavigationContainer>

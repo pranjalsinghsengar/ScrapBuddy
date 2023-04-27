@@ -36,7 +36,6 @@ const About = ({route, navigation}) => {
     }
   };
 
-
   return (
     <View style={styles.about_container}>
       <View style={styles.about_innerContainer}>
@@ -105,9 +104,11 @@ const styles = StyleSheet.create({
   about_innerContainer: {
     position: 'relative',
     height: h + 50,
+    color: 'black',
   },
   about_Image: {
     height: h,
+    color: 'black',
     backgroundColor: 'grey',
   },
   about_profile_Pic: {
@@ -122,11 +123,13 @@ const styles = StyleSheet.create({
   about_name: {
     fontSize: 20,
     marginVertical: 10,
+    color:"black",
 
     // backgroundColor: 'green',
   },
   about_bio: {
     fontSize: 16,
     marginVertical: 10,
+    color:"black",
   },
 });

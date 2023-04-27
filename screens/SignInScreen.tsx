@@ -26,10 +26,10 @@ const SignInScreen = ({navigation}) => {
     if ((email, password)) {
       try {
         await auth().signInWithEmailAndPassword(email, password);
-        navigation.navigate('Form');
+        navigation.navigate('BottomNav');
         await firebase.auth().onAuthStateChanged(user => {
           setUserId(user.uid);
-          console.log("useruid ",user.uid);
+          console.log('useruid ', user.uid);
           console.log(user.email);
         });
       } catch (error) {
@@ -54,11 +54,13 @@ const SignInScreen = ({navigation}) => {
       <Text style={styles.title}>Sign In</Text>
       <TextInput
         style={styles.input}
+        placeholderTextColor="black"
         placeholder="Email"
         value={email}
         onChangeText={text => setEmail(text)}
       />
       <TextInput
+        placeholderTextColor="black"
         style={styles.input}
         placeholder="Password"
         value={password}
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 30,
-    color:"black"
+    color: 'black',
   },
   input: {
     borderWidth: 1,
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
-    color:"black"
+    color: 'black',
   },
   button: {
     width: '100%',
