@@ -11,6 +11,9 @@ import {
   Alert,
 } from 'react-native';
 import Form from './Form';
+import { useGobalContext } from './GlobalContext';
+
+export const ContextInfo = React.createContext();
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -18,11 +21,11 @@ const SignUpScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
-  const [userId, setUserId] = useState(null);
-  const userIdRef = useRef(null);
-  // constructor() {
-  //   super();
-  // }
+  // const [userId, setUserId] = useState(null);
+  // const userIdRef = useRef(null);
+
+  const {userId, setUserId,userIdRef} = useGobalContext();
+  
   useEffect(() => {
     userIdRef.current = userId;
   }, [userId]);
@@ -40,10 +43,13 @@ const SignUpScreen = ({navigation}) => {
           console.log('User account created & signed in!');
           // console.log('userId' + user.userId);
 
-          navigation.navigate('BottomNav', {
-            screen: 'About',
-            params :{setUserId: setUserId, userIdRef: userIdRef.current}
-          });
+          navigation.navigate(
+            'BottomNav',
+            // , {
+            //   screen: 'About',
+            //   params: {setUserId, userIdRef},
+            // }
+          );
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -58,11 +64,11 @@ const SignUpScreen = ({navigation}) => {
 
           console.error(error);
         });
-      await firebase.auth().onAuthStateChanged(user => {
-        setUserId(user.uid);
-        // console.log(user.uid);
-        console.log(user.email);
-      });
+      // await firebase.auth().onAuthStateChanged(user => {
+      //   setUserId(user.uid);
+      //   // console.log(user.uid);
+      //   console.log(user.email);
+      // });
 
       await setTimeout(() => {
         Alert.alert('Alert Shows After 5 Seconds of Delay.');
@@ -74,7 +80,9 @@ const SignUpScreen = ({navigation}) => {
           .ref(`/users/${userIdRef.current}`)
           .set({
             user_Name: userName,
+            user_Bio: bio,
             user_mail: email,
+            user_Phone: phoneNo,
             user_pass: password,
             uid: userIdRef.current,
           })
@@ -90,53 +98,56 @@ const SignUpScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* BAck */}
-      <View style={{position: 'absolute', left: 20, top: 20}}>
-        <Text onPress={() => navigation.navigate('SignInScreen')}>back</Text>
+    <ContextInfo.Provider
+      value={{setUserId: setUserId, userIdRef: userIdRef.current}}>
+      <View style={styles.container}>
+        {/* BAck */}
+        <View style={{position: 'absolute', left: 20, top: 20}}>
+          <Text onPress={() => navigation.navigate('SignInScreen')}>back</Text>
+        </View>
+        <Text style={styles.title}>Sign Up</Text>
+        {/* <Text style={styles.title}>{userIdRef}</Text> */}
+        <Text style={styles.title}>{userIdRef.current}</Text>
+        {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
+        {/* Form */}
+        <TextInput
+          onChangeText={e => setUserName(e)}
+          value={userName}
+          placeholder="Full Name"
+          style={styles.input}
+        />
+        <TextInput
+          onChangeText={e => setBio(e)}
+          value={bio}
+          placeholder="Bio"
+          style={styles.input}
+        />
+        <TextInput
+          onChangeText={e => setPhoneNo(e)}
+          value={phoneNo}
+          placeholder="Phone Number"
+          style={styles.input}
+          keyboardType="numeric"
+        />
+        <TextInput
+          keyboardType="email-address"
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={e => setEmail(e)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={e => setPassword(e)}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Sign Up</Text>
-      {/* <Text style={styles.title}>{userIdRef}</Text> */}
-      <Text style={styles.title}>{userIdRef.current}</Text>
-      {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
-      {/* Form */}
-      <TextInput
-        onChangeText={e => setUserName(e)}
-        value={userName}
-        placeholder="Full Name"
-        style={styles.input}
-      />
-      <TextInput
-        onChangeText={e => setBio(e)}
-        value={bio}
-        placeholder="Bio"
-        style={styles.input}
-      />
-      <TextInput
-        onChangeText={e => setPhoneNo(e)}
-        value={phoneNo}
-        placeholder="Organisation Number"
-        style={styles.input}
-        keyboardType="numeric"
-      />
-      <TextInput
-        keyboardType="email-address"
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={e => setEmail(e)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={e => setPassword(e)}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+    </ContextInfo.Provider>
   );
 };
 

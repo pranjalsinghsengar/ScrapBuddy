@@ -8,6 +8,8 @@ import {
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/database';
+import {useGobalContext} from './GlobalContext';
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 // GoogleSignin.configure({
@@ -18,12 +20,18 @@ import auth from '@react-native-firebase/auth';
 const SignInScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {setUserId} = useGobalContext();
 
   const handleSignIn = async () => {
     if ((email, password)) {
       try {
         await auth().signInWithEmailAndPassword(email, password);
         navigation.navigate('Form');
+        await firebase.auth().onAuthStateChanged(user => {
+          setUserId(user.uid);
+          console.log("useruid ",user.uid);
+          console.log(user.email);
+        });
       } catch (error) {
         Alert.alert('Error', error.message);
       }
@@ -60,12 +68,12 @@ const SignInScreen = ({navigation}) => {
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
+      {/* <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
         <Text style={styles.buttonText}>Google</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
         <Text style={styles.buttonText}>FaceBook</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={{marginTop: 30}}
         onPress={() => navigation.navigate('SignUpScreen')}>
@@ -88,6 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 30,
+    color:"black"
   },
   input: {
     borderWidth: 1,
@@ -97,6 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
+    color:"black"
   },
   button: {
     width: '100%',

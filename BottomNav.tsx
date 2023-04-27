@@ -9,8 +9,8 @@ import Upload from './src/Upload/Upload';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const BottomNav = ({route,navigation}) => {
-  const {userId, setUserId } = route.params;
+const BottomNav = ({navigation}) => {
+  // const {userId, setUserId } = route.params;
   return (
     <Tab.Navigator
       initialRouteName="Home"

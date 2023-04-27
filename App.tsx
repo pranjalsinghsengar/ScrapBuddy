@@ -10,6 +10,8 @@ import Form from './screens/Form';
 import auth from '@react-native-firebase/auth';
 import DummyData from './screens/DummyData';
 import About from './src/Profile/About';
+import {ContextProvider} from './screens/GlobalContext';
+import PickImage from './src/Upload/PickImage';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,25 +43,27 @@ const App = () => {
 
   // ============================================================================================
 
-
   // ============================================================================================
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* <BottomNav /> */}
+    <ContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          {/* <BottomNav /> */}
 
-        {/* <Form /> */}
+          {/* <Form /> */}
 
-        <Stack.Screen name="About" component={About} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="DummyData" component={DummyData} />
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-        <Stack.Screen name="SignInScreen" component={SignInScreen} />
-        <Stack.Screen name="Form" component={Form} />
-        <Stack.Screen name="BottomNav" component={BottomNav} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name="SignInScreen" component={SignInScreen} />
+          <Stack.Screen name="About" component={About} />
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="BottomNav" component={BottomNav} />
+          <Stack.Screen name="PickImage" component={PickImage} />
+          <Stack.Screen name="DummyData" component={DummyData} />
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+          <Stack.Screen name="Form" component={Form} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ContextProvider>
   );
 };
 

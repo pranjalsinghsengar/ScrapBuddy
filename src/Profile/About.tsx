@@ -1,12 +1,24 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React,{useState} from 'react';
+import {StyleSheet, Text, FlatList, View} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import {ContextInfo} from '../../screens/SignUpScreen';
+import {useGobalContext} from '../../screens/GlobalContext';
+import database, {firebase} from '@react-native-firebase/database';
 
+// const AboutProfile = ({user_Name, user_Bio, user_Phone}) => {
+//   return (
+//     <View style={{left: 10, backgroundColor:"red",height:"100%"}}>
+//       <Text style={styles.about_name}>{usename}</Text>
 
+//       <Text style={styles.about_bio}>Bio: {user_Bio}</Text>
+//       <Text style={styles.about_bio}>Phone No. : {user_Phone}</Text>
+//     </View>
+//   );
+// };
 
-const About = ({route,navigation}) => {
-  const {userIdRef} = route.params;
+const About = ({route, navigation}) => {
+  // const {userIdRef} = route.params;
+  const {userIdRef, profileDataRef, setProfileData} = useGobalContext();
   const [listdummyData, setListDummyData] = useState(null);
-
 
   useEffect(() => {
     FetchData();
@@ -14,13 +26,16 @@ const About = ({route,navigation}) => {
 
   const FetchData = async () => {
     try {
-      const data = await database().ref(`users/${userIdRef}`).once('value');
+      const data = await database()
+        .ref(`users/${userIdRef.current}`)
+        .once('value');
       setListDummyData(data.val());
       console.log(data);
     } catch (e) {
       console.log(e);
     }
   };
+
 
   return (
     <View style={styles.about_container}>
@@ -30,12 +45,48 @@ const About = ({route,navigation}) => {
         {/* Profile */}
         <View style={styles.about_profile_Pic}></View>
       </View>
+      {/* {profileData.map((item, index) => {
+        return (
+          <View key={index}>
+            <Image
+              style={{width: 400, height: 400}}
+              source={{uri: item.ImgUrl}}
+            />
+            <Text>{item.discription}</Text>
+            <Text>{item.user_Name}</Text>
+          </View>
+        );
+      })} */}
 
-      <View style={{left:10}}>
-        <Text style={styles.about_name}>{listdummyData.user_Name} </Text>
-        <Text style={styles.about_bio}>Bio</Text>
-
+      <View style={{left: 10}}>
+        <Text style={styles.about_name}>
+          name : {listdummyData ? listdummyData.user_Name : 's'}
+        </Text>
+        <Text style={styles.about_bio}>
+          Bio: {listdummyData ? listdummyData.user_Bio : 's'}
+        </Text>
+        <Text style={styles.about_bio}>
+          Phone No. : {listdummyData ? listdummyData.user_Phone : 's'}
+        </Text>
       </View>
+
+      {/* <FlatList
+        style={{flex: 1}}
+        data={listdummyData}
+        renderItem={({item}) => (
+          <AboutProfile
+            user_Name={item.user_Name}
+            user_Bio={item.user_Bio}
+            user_Phone={item.user_Phone}
+          />
+        )}
+      /> */}
+
+      {/* {profileData.map((item, index) => {
+        return (
+         
+        );
+      })} */}
     </View>
   );
 };
@@ -45,7 +96,9 @@ const h = 150;
 const top = h - 50;
 const styles = StyleSheet.create({
   about_container: {
+    // height:'50%',
     flex: 1,
+    // backgroundColor:"red",
     // justifyC
     // backgroundColor:"blue"
   },
@@ -68,13 +121,12 @@ const styles = StyleSheet.create({
   },
   about_name: {
     fontSize: 20,
-    marginVertical:10,
-    
+    marginVertical: 10,
+
     // backgroundColor: 'green',
-},
-about_bio:{
+  },
+  about_bio: {
     fontSize: 16,
-    marginVertical:10,
-    
-  }
+    marginVertical: 10,
+  },
 });
