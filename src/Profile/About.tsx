@@ -3,6 +3,7 @@ import React, {useState, useContext, useEffect} from 'react';
 import {ContextInfo} from '../../screens/SignUpScreen';
 import {useGobalContext} from '../../screens/GlobalContext';
 import database, {firebase} from '@react-native-firebase/database';
+import DummyData from '../../screens/DummyData';
 
 // const AboutProfile = ({user_Name, user_Bio, user_Phone}) => {
 //   return (
@@ -15,7 +16,7 @@ import database, {firebase} from '@react-native-firebase/database';
 //   );
 // };
 
-const About = ({route, navigation}) => {
+const About = ({navigation}) => {
   // const {userIdRef} = route.params;
   const {userIdRef, profileDataRef, setProfileData} = useGobalContext();
   const [listdummyData, setListDummyData] = useState(null);
@@ -31,6 +32,7 @@ const About = ({route, navigation}) => {
         .once('value');
       setListDummyData(data.val());
       console.log(data);
+      // console.log(listdummyData);
     } catch (e) {
       console.log(e);
     }
@@ -59,13 +61,14 @@ const About = ({route, navigation}) => {
 
       <View style={{left: 10}}>
         <Text style={styles.about_name}>
-          name : {listdummyData ? listdummyData.user_Name : 's'}
+          name : {listdummyData ? listdummyData.user_Name : 'Backend error'}
         </Text>
         <Text style={styles.about_bio}>
-          Bio: {listdummyData ? listdummyData.user_Bio : 's'}
+          Bio: {listdummyData ? listdummyData.user_Bio : 'Backend error'}
         </Text>
         <Text style={styles.about_bio}>
-          Phone No. : {listdummyData ? listdummyData.user_Phone : 's'}
+          Phone No. :{' '}
+          {listdummyData ? listdummyData.user_Phone : 'Backend error'}
         </Text>
       </View>
 
@@ -123,13 +126,13 @@ const styles = StyleSheet.create({
   about_name: {
     fontSize: 20,
     marginVertical: 10,
-    color:"black",
+    color: 'black',
 
     // backgroundColor: 'green',
   },
   about_bio: {
     fontSize: 16,
     marginVertical: 10,
-    color:"black",
+    color: 'black',
   },
 });

@@ -12,7 +12,12 @@ import DummyData from './screens/DummyData';
 import About from './src/Profile/About';
 import {ContextProvider} from './screens/GlobalContext';
 import PickImage from './src/Upload/PickImage';
-
+import ShowUserData from './screens/ShowUserData';
+import Profile from './src/Profile/Profile';
+import Search from './screens/Search/Search';
+import ProductScreen from './screens/ProductScreen';
+import ShowProducts from './screens/Search/ShowProducts';
+import SearchIcon from './screens/Search/SearchIcon';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -48,18 +53,41 @@ const App = () => {
   return (
     <ContextProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          {/* <BottomNav /> */}
-
-          {/* <Form /> */}
-
+        <Stack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName="SignInScreen">
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="SignInScreen" component={SignInScreen} />
-          <Stack.Screen name="About" component={About} />
-          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} />
-          <Stack.Screen name="PickImage" component={PickImage} />
-          <Stack.Screen name="DummyData" component={DummyData} />
+
+          {/* Profile */}
+
+          <Stack.Group screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="About" component={About} />
+          </Stack.Group>
+          {/* User DATA */}
+          <Stack.Group>
+            <Stack.Screen name="ShowUserData" component={ShowUserData} />
+            <Stack.Screen name="ProductScreen" component={ProductScreen} />
+          </Stack.Group>
+          {/* upload */}
+          <Stack.Group>
+            <Stack.Screen name="PickImage" component={PickImage} />
+          </Stack.Group>
+
+          <Stack.Group>
+            <Stack.Screen name="Search" component={Search} />
+            <Stack.Screen name="SearchIcon" component={SearchIcon} />
+            <Stack.Screen name="ShowProducts" component={ShowProducts} />
+          </Stack.Group>
+          {/* Login Screeen\
+           */}
+          <Stack.Group>
+            <Stack.Screen name="SignInScreen" component={SignInScreen} />
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          </Stack.Group>
+
+          {/* <Stack.Screen name="DummyData" component={DummyData} /> */}
           <Stack.Screen name="Form" component={Form} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Home from './src/Home/Home';
 import Profile from './src/Profile/Profile';
 import Upload from './src/Upload/Upload';
+import Search from './screens/Search/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -16,7 +17,6 @@ const BottomNav = ({navigation}) => {
       initialRouteName="Home"
       activeColor="#e91e63"
       barStyle={{backgroundColor: 'tomato'}}>
-        
       <Tab.Screen
         name="Home"
         component={Home}
@@ -24,6 +24,16 @@ const BottomNav = ({navigation}) => {
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
             <FontAwesome name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          // tabBarLabel: 'Upload',
+          tabBarIcon: ({color}) => (
+            <FontAwesome name="search" color={color} size={26} />
           ),
         }}
       />
@@ -46,7 +56,6 @@ const BottomNav = ({navigation}) => {
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
-          
         }}
       />
     </Tab.Navigator>
