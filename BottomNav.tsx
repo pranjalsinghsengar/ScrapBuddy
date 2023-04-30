@@ -14,7 +14,7 @@ const BottomNav = ({navigation}) => {
   // const {userId, setUserId } = route.params;
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Search"
       activeColor="#e91e63"
       barStyle={{backgroundColor: 'tomato'}}>
       <Tab.Screen

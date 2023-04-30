@@ -46,8 +46,8 @@ const PickImage = () => {
   const [open, setOpen] = useState(false);
   const [selectvalue, setSelectvalue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
+    {label: 'Wood', value: 'Wood'},
+    {label: 'Plastic', value: 'Plastic'},
   ]);
 
   useEffect(() => {
@@ -96,6 +96,7 @@ const PickImage = () => {
           ImgUrl: uploadedUrlRef.current,
           elementName: elementName,
           discription: discription,
+          type: selectvalue,
         })
         .then(() => {
           console.log('UserID: ' + userIdRef.current);
@@ -103,6 +104,7 @@ const PickImage = () => {
           console.log('Done');
           setElementName('');
           setDiscription('');
+          setSelectvalue(null);
         });
     } catch (e) {
       console.log(e);

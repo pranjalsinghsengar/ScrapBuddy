@@ -5,7 +5,7 @@ import {useGobalContext} from './GlobalContext';
 // import { withNavigation } from 'reactnaviga';
 import {useNavigation} from '@react-navigation/native';
 
-const ShowUserData = () => {
+const ShowUserData = ({}) => {
   const {userIdRef} = useGobalContext();
   const [userData, setUserData] = useState([]);
   const [listdummyData, setListDummyData] = useState(null);
@@ -18,16 +18,22 @@ const ShowUserData = () => {
 
   const FetchData = async () => {
     try {
-      await database()
-        .ref(`/users/${userIdRef.current}/uplaod`)
-        .on('value', snapshot => {
+      const db = await database();
+      db.ref(`/users/${userIdRef.current}/uplaod`)
+        .orderByKey()
+        .on('value', querySnapshot => {
           const main = [];
-          snapshot.forEach(child => {
-            console.log(child.val());
-            main.push({
-              key: child.val(),
+          querySnapshot.forEach(child => {
+            let key = child.forEach(child => {
+              // let data = child.val();
+
+              console.log('= ==> ', child.val());
+              main.push({
+                key: child.val(),
+              });
             });
           });
+
           console.log('newData: ', main);
           console.log('global: ', userIdRef.current);
           setUserData(main);
@@ -66,15 +72,18 @@ const ShowUserData = () => {
                 <Text style={styles.element_Name}>{item.key.elementName}</Text>
               ) : null}
 
-              <Text style={styles.userName}>
-                @{listdummyData ? listdummyData.user_Name : 'Backend error'}
-              </Text>
+              {item.key.user_Name ? (
+                <Text style={styles.userName}>{item.key.user_Name}</Text>
+              ) : null}
+              {item.key.type ? (
+                <Text style={styles.type}>{item.key.type}</Text>
+              ) : null}
             </View>
 
             <TouchableOpacity
               // onPress={()=> navigate('home')}
               style={styles.image_Container}
-              onPress={() => navigation.navigate('ProductScreen')}>
+              onPress={() => navigation.navigate('ProductScreen',{ShowImg : item.key.ImgUrl})}>
               <Image
                 style={styles.image_style}
                 source={{uri: item.key.ImgUrl}}
@@ -88,27 +97,6 @@ const ShowUserData = () => {
           </View>
         );
       })}
-
-      {/* <View style={{width: '90%'}}>
-        <Text style={styles.element_Name}>Element Name</Text>
-        <View style={styles.userName_container}>
-          <Text style={styles.userName}>
-            @Pranjal Sengar */}
-      {/* @{listdummyData ? listdummyData.user_Name : 'Backend error'} */}
-      {/* </Text>
-        </View> */}
-
-      {/* <View style={styles.image_Container}>
-          <Image
-            style={styles.image_style}
-            source={{uri: './AuthProvider.tsx'}}
-          /> */}
-
-      {/* <TouchableOpacity style={styles.btn_Container}>
-            <Text style={styles.Go_text_Container}> Go </Text>
-          </TouchableOpacity> */}
-      {/* </View>
-      </View> */}
     </View>
   );
 };
@@ -116,6 +104,23 @@ const ShowUserData = () => {
 export default ShowUserData;
 
 const styles = StyleSheet.create({
+  hehe: {
+    flex: 1,
+    // height: '100%',
+  },
+  main_container: {
+    flex: 1,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+    alignItems: 'center',
+  },
+  Inner_main_container: {
+    flex: 1,
+    width: '90%',
+    // height: '100%',
+  },
   element_Name: {
     fontSize: 25,
     color: 'black',
@@ -151,6 +156,17 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 50,
     backgroundColor: '#60FFA87E',
+    letterSpacing: 1,
+    marginLeft: 10,
+  },
+  type: {
+    color: '#095707',
+    fontSize: 11,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+    paddingVertical: 3,
+    borderRadius: 50,
+    backgroundColor: '#C2FF607E',
     letterSpacing: 1,
     marginLeft: 10,
   },

@@ -34,7 +34,7 @@ const Home = ({navigation}) => {
 
   const FetchData = async () => {
     try {
-      const FetchDB = await database().ref(`/users`).orderByKey()
+      const FetchDB = await database().ref(`/users`).orderByKey();
       // FetchDB.keepSynced(true);
       FetchDB.on('value', querySnapshot => {
         const main = [];
@@ -44,11 +44,10 @@ const Home = ({navigation}) => {
           // let keyname = child.key;
 
           let data = child.val();
-          var key = child
-            .child('uplaod').child('banana')
-            .forEach(child => {
+          var key = child.child('uplaod').forEach(Snapshot => {
+            Snapshot.forEach(child => {
               var imgURLs = child.val();
-              console.log('Banana: ', imgURLs);
+              console.log('imgURLs: ', imgURLs);
 
               main.push({
                 data: data,
@@ -57,20 +56,22 @@ const Home = ({navigation}) => {
                 // });
               });
             });
-            var key = child
-            .child('uplaod').child('apple')
-            .forEach(child => {
-              var imgURLs = child.val();
-              console.log('Banana: ', imgURLs);
+          });
+          // var key = child
+          //   .child('uplaod')
+          //   .child('apple')
+          //   .forEach(child => {
+          //     var imgURLs = child.val();
+          //     console.log('Banana: ', imgURLs);
 
-              main.push({
-                data: data,
-                imgURLs: imgURLs,
-                // data: upload,
-                // });
-              });
-            });
-          console.log('key: ', key);
+          //     main.push({
+          //       data: data,
+          //       imgURLs: imgURLs,
+          //       // data: upload,
+          //       // });
+          //     });
+          //   });
+          // console.log('key: ', key);
 
           // let uploadData = child.child('upload')
 
@@ -125,12 +126,15 @@ const Home = ({navigation}) => {
                 {item.data.user_Name ? (
                   <Text style={styles.userName}>{item.data.user_Name}</Text>
                 ) : null}
+                {item.imgURLs.type ? (
+                  <Text style={styles.type}>{item.imgURLs.type}</Text>
+                ) : null}
               </View>
 
               <TouchableOpacity
                 // onPress={()=> navigate('home')}
                 style={styles.image_Container}
-                onPress={() => navigation.navigate('ProductScreen')}>
+                onPress={() => navigation.navigate('ProductScreen', {ShowImg : item.imgURLs.ImgUrl})}>
                 <Image
                   style={styles.image_style}
                   source={{uri: item.imgURLs.ImgUrl}}
@@ -202,6 +206,17 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 50,
     backgroundColor: '#60FFA87E',
+    letterSpacing: 1,
+    marginLeft: 10,
+  },
+  type: {
+    color: '#0B490A',
+    fontSize: 11,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+    paddingVertical: 3,
+    borderRadius: 50,
+    backgroundColor: '#C2FF607E',
     letterSpacing: 1,
     marginLeft: 10,
   },
