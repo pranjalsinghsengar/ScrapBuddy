@@ -10,14 +10,20 @@ import {
   Alert,
   ActivityIndicator,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import React, {useState, useRef, useEffect} from 'react';
 import storage from '@react-native-firebase/storage';
-import PickImageBtn, {UploadImageBtn} from './Compo_Btn';
+import PickImageBtn, {
+  UnSubmitUploadImageBtn,
+  UploadImageBtn,
+} from './Compo_Btn';
 import MenuBar from './MenuBar';
 import {useGobalContext} from '../../screens/GlobalContext';
 import database, {firebase} from '@react-native-firebase/database';
+
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // import { TextInput } from 'react-native-paper';
 // import ImagePicker, {
@@ -35,7 +41,14 @@ const PickImage = () => {
   const [transferred, setTransferred] = useState(0);
   const [uploadedUrl, setUploadedUrl] = useState(null);
   const uploadedUrlRef = useRef(null);
-  const[elementName, setElementName] =useState("")
+  const [elementName, setElementName] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const [selectvalue, setSelectvalue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple'},
+    {label: 'Banana', value: 'banana'},
+  ]);
 
   useEffect(() => {
     uploadedUrlRef.current = uploadedUrl;
@@ -78,16 +91,18 @@ const PickImage = () => {
   const SendData = async () => {
     try {
       await database()
-        .ref(`/users/${userIdRef.current}/uplaod`)
+        .ref(`/users/${userIdRef.current}/uplaod/${selectvalue}`)
         .push({
           ImgUrl: uploadedUrlRef.current,
-          elementName : elementName,
+          elementName: elementName,
           discription: discription,
         })
         .then(() => {
           console.log('UserID: ' + userIdRef.current);
           console.log('uploadedUrlRef>current: ' + uploadedUrlRef.current);
           console.log('Done');
+          setElementName('');
+          setDiscription('');
         });
     } catch (e) {
       console.log(e);
@@ -135,49 +150,86 @@ const PickImage = () => {
       <View style={styles.showImage}>
         {image !== null ? (
           <>
-            <Image style={styles.Img} source={{uri: image}} />
-            
-            
-            <TextInput
-              editable
-              multiline
-              placeholder="Element Name"
-              placeholderTextColor="black"
-              onChangeText={e => setElementName(e)}
-              value={elementName}
-              // scrollEnabled= 'true'
-              style={{
-                width: 300,
-                // height: 200,
+            <View style={{height: IMG_height, position: 'relative'}}>
+              <Image style={styles.Img} source={{uri: image}} />
+              {selectvalue ? (
+                <Text style={styles.ShowText}>{selectvalue}</Text>
+              ) : null}
+            </View>
 
-                fontSize: 24,
-                fontWeight: '500',
-                marginTop: 30,
-              }}
-              />
-            <TextInput
-              editable
-              multiline
-              placeholder="Discription"
-              placeholderTextColor="black"
-              onChangeText={e => setDiscription(e)}
-              value={discription}
-              // scrollEnabled= 'true'
-              numberOfLines={6}
-              style={{
-                width: 300,
-                // height: 200,
+            <View style={styles.form_Container}>
+              {selectvalue ? (
+                <ScrollView>
+                  <View style={{marginTop: 20}}>
+                    <TextInput
+                      editable
+                      multiline
+                      placeholder="Element Name"
+                      placeholderTextColor="black"
+                      onChangeText={e => setElementName(e)}
+                      value={elementName}
+                      // scrollEnabled= 'true'
+                      style={{
+                        width: 300,
+                        // height: 200,
 
-                fontSize: 20,
-                // fontWeight: '500',
-                marginTop: 30,
-                lineHeight: 1,
-              }}
-            />
+                        fontSize: 24,
+                        fontWeight: '500',
+                        // marginTop: 30,
+                      }}
+                    />
+                    <TextInput
+                      editable
+                      multiline
+                      placeholder="Discription"
+                      placeholderTextColor="black"
+                      onChangeText={e => setDiscription(e)}
+                      value={discription}
+                      // scrollEnabled= 'true'
+                      numberOfLines={3}
+                      style={{
+                        width: 300,
+                        // height: 200,
+
+                        fontSize: 20,
+                        // fontWeight: '500',
+                        // marginTop: 30,
+                        // lineHeight: 1,
+                      }}
+                    />
+                  </View>
+                </ScrollView>
+              ) : (
+                <View style={{width: 200}}>
+                  <DropDownPicker
+                    open={open}
+                    value={selectvalue}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setSelectvalue}
+                    setItems={setItems}
+                    style={{borderColor: 'transparent'}}
+                    translation={{
+                      PLACEHOLDER: 'Select Category',
+                    }}
+                    dropDownContainerStyle={{
+                      // backgroundColor: "#D30505"
+                      // ,width:"80%"
+                      borderColor: 'transparent',
+                    }}
+                    placeholderStyle={{
+                      color: 'grey',
+                      fontWeight: 'bold',
+                      padding: 0,
+                      // width:100
+                    }}
+                  />
+                </View>
+              )}
+            </View>
           </>
         ) : null}
       </View>
-
       <View style={styles.uploadImage}>
         <View style={styles.PickImage_btn}>
           <PickImageBtn onPressData={takePhotoFromCamera} btn_Text={'Camera'} />
@@ -186,14 +238,18 @@ const PickImage = () => {
             btn_Text={'Drive'}
           />
         </View>
-        {uploading ? (
-          <>
-            <Text>{transferred} % Completed </Text>
+        {selectvalue ? (
+          uploading ? (
+            <>
+              <Text>{transferred} % Completed </Text>
 
-            <ActivityIndicator size="large" color="#000000" />
-          </>
+              <ActivityIndicator size="large" color="#000000" />
+            </>
+          ) : (
+            <UploadImageBtn onPressData={SubmitPost} btn_Text={'Upload'} />
+          )
         ) : (
-          <UploadImageBtn onPressData={SubmitPost} btn_Text={'Upload'} />
+          <UnSubmitUploadImageBtn btn_Text={'Upload'} />
         )}
       </View>
     </View>
@@ -201,6 +257,9 @@ const PickImage = () => {
 };
 
 export default PickImage;
+const IMG_Width = 300;
+const IMG_height = 250;
+const ShowTextLocation_W = IMG_Width / 4;
 const styles = StyleSheet.create({
   PickImage_Container: {
     flex: 1,
@@ -212,13 +271,28 @@ const styles = StyleSheet.create({
   showImage: {
     flex: 1,
 
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 30,
+    width: 300,
   },
   Img: {
-    width: 350,
-    height: 300,
+    width: 300,
+    height: 250,
     borderRadius: 20,
+  },
+  ShowText: {
+    fontSize: 30,
+    marginTop: 10,
+    color: '#288D01',
+    position: 'absolute',
+    backgroundColor: 'white',
+    paddingHorizontal: 30,
+    paddingVertical: 1,
+    borderRadius: 50,
+    left: ShowTextLocation_W,
+    bottom: 0,
+    transform: [{translateX: 0}, {translateY: 20}],
   },
   uploadImage: {
     flex: 1 / 10,
@@ -237,6 +311,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     // backgroundColor:"red"
   },
+  form_Container: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   // addBtn: {
   //   // fontSize: 80,
   //   backgroundColor: 'red',

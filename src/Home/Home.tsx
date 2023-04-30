@@ -34,27 +34,42 @@ const Home = ({navigation}) => {
 
   const FetchData = async () => {
     try {
-      const FetchDB = await database().ref(`/users`).orderByKey();
+      const FetchDB = await database().ref(`/users`).orderByKey()
       // FetchDB.keepSynced(true);
       FetchDB.on('value', querySnapshot => {
         const main = [];
         querySnapshot.forEach(child => {
           // console.log('Home_child.Key=> ', child.key);
-          // console.log('Home_child.val=> ', child.val());
+          console.log('Home_child.val=> ', child.val());
           // let keyname = child.key;
 
           let data = child.val();
-          var key = child.child('uplaod').forEach(child => {
-            var imgURLs = child.val();
-            console.log('imgURLs: ', imgURLs);
+          var key = child
+            .child('uplaod').child('banana')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Banana: ', imgURLs);
 
-            main.push({
-              data: data,
-              imgURLs: imgURLs,
-              // data: upload,
-              // });
+              main.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
             });
-          });
+            var key = child
+            .child('uplaod').child('apple')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Banana: ', imgURLs);
+
+              main.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
           console.log('key: ', key);
 
           // let uploadData = child.child('upload')
@@ -64,7 +79,7 @@ const Home = ({navigation}) => {
         });
         setUserData(main);
         // console.log('val: ', main);
-        console.log('Home_newData: ', userData);
+        console.log('Home_newData: ', main);
         console.log('Home_global: ', userIdRef.current);
       });
     } catch (e) {

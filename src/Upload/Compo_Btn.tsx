@@ -10,6 +10,15 @@ return(
     </View>
 )
 }
+export const UnSubmitUploadImageBtn = ({onPressData, btn_Text, ...rest})=>{
+  return(
+    <View>
+        <TouchableOpacity style={styles.UnSubmitupload_addBtn} onPress={onPressData}>
+          <Text style={styles.UnSubmitaddBtn_text}>{btn_Text}</Text>
+        </TouchableOpacity>
+      </View>
+  )
+  }
 
 const PickImageBtn = ({onPressData, btn_Text, ...rest}) => {
   return (
@@ -39,6 +48,7 @@ const styles = StyleSheet.create({
   addBtn_text: {
     fontSize: 20,
     // ,backgroundColor:"green"
+    color:"#144301E2"
   },
   upload_addBtn:{
     paddingHorizontal:30,
@@ -47,7 +57,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    backgroundColor:"orange",
-    backgroundColor:"red",
+    backgroundColor:"#9EEF7EE2",
+  },
+  UnSubmitaddBtn_text:{
+    fontSize: 20,
+    color:"white"
+  }
+  
+  ,UnSubmitupload_addBtn:{
+    paddingHorizontal:30,
+    paddingVertical:10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    backgroundColor:"#F25B5B",
   }
 });
