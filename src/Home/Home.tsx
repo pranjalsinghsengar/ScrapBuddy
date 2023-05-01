@@ -134,7 +134,13 @@ const Home = ({navigation}) => {
               <TouchableOpacity
                 // onPress={()=> navigate('home')}
                 style={styles.image_Container}
-                onPress={() => navigation.navigate('ProductScreen', {ShowImg : item.imgURLs.ImgUrl})}>
+                onPress={() =>
+                  navigation.navigate('BuyPage', {
+                    Show_Img: item.imgURLs.ImgUrl,
+                    elementName: item.imgURLs.elementName,
+                    discription: item.imgURLs.discription,
+                  })
+                }>
                 <Image
                   style={styles.image_style}
                   source={{uri: item.imgURLs.ImgUrl}}

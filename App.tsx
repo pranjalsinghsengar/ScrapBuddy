@@ -18,6 +18,8 @@ import Search from './screens/Search/Search';
 import ProductScreen from './screens/ProductScreen';
 import ShowProducts from './screens/Search/ShowProducts';
 import SearchIcon from './screens/Search/SearchIcon';
+import ConfirmNewUser from './screens/ConfirmNewUser';
+import BuyPage from './src/NewuserDisplay/BuyPage';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -58,6 +60,7 @@ const App = () => {
           initialRouteName="SignInScreen">
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} />
+          <Stack.Screen name="ConfirmNewUser" component={ConfirmNewUser} />
 
           {/* Profile */}
 
@@ -68,6 +71,7 @@ const App = () => {
           {/* User DATA */}
           <Stack.Group>
             <Stack.Screen name="ShowUserData" component={ShowUserData} />
+            <Stack.Screen name="BuyPage" component={BuyPage} />
             <Stack.Screen name="ProductScreen" component={ProductScreen} />
           </Stack.Group>
           {/* upload */}

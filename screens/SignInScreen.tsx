@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {firebase} from '@react-native-firebase/database';
+// import {firebase} from '@react-native-firebase/database';
 import {useGobalContext} from './GlobalContext';
+import database, {firebase} from '@react-native-firebase/database';
+
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 // GoogleSignin.configure({
@@ -21,12 +24,57 @@ const SignInScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {setUserId} = useGobalContext();
+  const {userIdRef} = useGobalContext();
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  // const navigation = useNavigation();
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  useEffect(() => {});
+
+  const Navi = async () => {
+    await setTimeout(() => {
+      // Alert.alert('I am appearing...', 'After 5 seconds!');
+      navigation.navigate('ConfirmNewUser');
+      setLoading(false);
+    }, 2000);
+  };
+
+  const FetchData = async () => {
+    try {
+      const db = await database();
+      db.ref(`/users/${userIdRef.current}/uplaod`).once(
+        'value',
+        querySnapshot => {
+          const main = [];
+          querySnapshot.val();
+          console.log('=ConfirmNewUser==> ', querySnapshot.val());
+
+          setUserData(querySnapshot.val());
+
+          //   console.log('ConfirmNewUser: ', main);
+          console.log('global: ', userIdRef.current);
+        },
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  if (userData) {
+    console.log('userData=> ', userData);
+  }
 
   const handleSignIn = async () => {
     if ((email, password)) {
       try {
         await auth().signInWithEmailAndPassword(email, password);
-        navigation.navigate('BottomNav');
+        // navigation.navigate(userData ? 'BottomNav' : 'ConfirmNewUser');
+        setLoading(true);
+        Navi();
+
         await firebase.auth().onAuthStateChanged(user => {
           setUserId(user.uid);
           console.log('useruid ', user.uid);
@@ -68,7 +116,11 @@ const SignInScreen = ({navigation}) => {
         secureTextEntry
       />
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Sign In</Text>
+        {loading ? (
+          <ActivityIndicator />
+          ) : (
+          <Text style={styles.buttonText}>Sign In</Text>
+        )}
       </TouchableOpacity>
       {/* <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
         <Text style={styles.buttonText}>Google</Text>

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 
-const ShowProducts = ({route,navigation}) => {
+const ShowProducts = ({route, navigation}) => {
   const Data = route.params.Data;
   console.log('ShowProducts', route.params.Data);
   return (
@@ -46,8 +46,9 @@ const ShowProducts = ({route,navigation}) => {
                 // onPress={()=> navigate('home')}
                 style={styles.image_Container}
                 onPress={() =>
-                  navigation.navigate('ProductScreen', {
+                  navigation.navigate('BuyPage', {
                     ShowImg: item.imgURLs.ImgUrl,
+                    elementName: item.imgURLs.elementName,
                   })
                 }>
                 <Image

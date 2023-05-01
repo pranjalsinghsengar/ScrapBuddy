@@ -7,7 +7,6 @@ import database, {firebase} from '@react-native-firebase/database';
 const DummyImage = `'../assets/Frame.png'`;
 const Search = () => {
   const [searchProduct, setSearchProduct] = useState();
-
   const [userWoodData, setUserData] = useState([]);
   const [PlasticData, setplacticData] = useState([]);
 
