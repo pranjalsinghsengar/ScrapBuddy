@@ -83,14 +83,26 @@ const ShowUserData = ({}) => {
             <TouchableOpacity
               // onPress={()=> navigate('home')}
               style={styles.image_Container}
-              onPress={() => navigation.navigate('ProductScreen',{ShowImg : item.key.ImgUrl})}>
+              onPress={() =>
+                navigation.navigate('BuyPage', {
+                  ImgUrl: item.key.ImgUrl,
+                  elementName: item.key.elementName,
+                  discription: item.key.discription,
+                  payType: item.key.paytype,
+                  user_Name: item.key.user_Name,
+                  type: item.key.type,
+                })
+              }>
               <Image
                 style={styles.image_style}
                 source={{uri: item.key.ImgUrl}}
               />
 
               <TouchableOpacity style={styles.btn_Container}>
-                <Text style={styles.Go_text_Container}> Go </Text>
+                <Text style={styles.Go_text_Container}>
+                  {' '}
+                  {item.key.paytype ? <>{item.key.paytype}</> : 'free'}{' '}
+                </Text>
               </TouchableOpacity>
             </TouchableOpacity>
             {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}

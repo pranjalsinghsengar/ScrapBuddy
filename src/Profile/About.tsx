@@ -1,9 +1,17 @@
-import {StyleSheet, Text, FlatList, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import {ContextInfo} from '../../screens/SignUpScreen';
 import {useGobalContext} from '../../screens/GlobalContext';
 import database, {firebase} from '@react-native-firebase/database';
 import DummyData from '../../screens/DummyData';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // const AboutProfile = ({user_Name, user_Bio, user_Phone}) => {
 //   return (
@@ -20,6 +28,7 @@ const About = ({navigation}) => {
   // const {userIdRef} = route.params;
   const {userIdRef, profileDataRef, setProfileData} = useGobalContext();
   const [listdummyData, setListDummyData] = useState(null);
+  const [profile_Img, setProfile_Img] = useState(null);
 
   useEffect(() => {
     FetchData();
@@ -44,7 +53,9 @@ const About = ({navigation}) => {
         {/* Image */}
         <View style={styles.about_Image}></View>
         {/* Profile */}
-        <View style={styles.about_profile_Pic}></View>
+        <TouchableOpacity style={styles.about_profile_Pic}>
+          <Image source={{uri: profile_Img}} />
+        </TouchableOpacity>
       </View>
       {/* {profileData.map((item, index) => {
         return (

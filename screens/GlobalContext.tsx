@@ -83,6 +83,7 @@ const ContextProvider = ({children}) => {
 
   // };
 
+  const ScrapBuddyLOGO = require('./assets/ScrapBuddyLOGO.png');
   return (
     <Context.Provider
       value={{
@@ -91,6 +92,7 @@ const ContextProvider = ({children}) => {
         userIdRef,
         setUserData,
         userData,
+        ScrapBuddyLOGO,
       }}>
       {children}
     </Context.Provider>

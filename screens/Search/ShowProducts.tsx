@@ -13,7 +13,14 @@ const ShowProducts = ({route, navigation}) => {
   console.log('ShowProducts', route.params.Data);
   return (
     <ScrollView>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}>
         {/* {userData} */}
         {Data.map((item, index) => {
           // TODO 1: Element_Name, 2: UserName, 3: Image_Of_Product, 4:
@@ -21,11 +28,11 @@ const ShowProducts = ({route, navigation}) => {
             <View
               key={index}
               style={{
-                width: '90%',
+                width: '48%',
                 backgroundColor: 'white',
                 padding: 10,
                 borderRadius: 15,
-                marginVertical: 10,
+                marginVertical: 5,
               }}>
               <View style={styles.userName_container}>
                 {item.imgURLs.elementName ? (
@@ -47,8 +54,12 @@ const ShowProducts = ({route, navigation}) => {
                 style={styles.image_Container}
                 onPress={() =>
                   navigation.navigate('BuyPage', {
-                    ShowImg: item.imgURLs.ImgUrl,
+                    user_Name: item.data.user_Name,
+                    ImgUrl: item.imgURLs.ImgUrl,
                     elementName: item.imgURLs.elementName,
+                    discription: item.imgURLs.discription,
+                    type: item.imgURLs.type,
+                    payType: item.imgURLs.paytype,
                   })
                 }>
                 <Image
@@ -57,7 +68,13 @@ const ShowProducts = ({route, navigation}) => {
                 />
 
                 <TouchableOpacity style={styles.btn_Container}>
-                  <Text style={styles.Go_text_Container}> Go </Text>
+                  {item.imgURLs.paytype ? (
+                    <Text style={styles.Go_text_Container}>
+                      {item.imgURLs.paytype}
+                    </Text>
+                  ) : (
+                    <Text style={styles.Free_text_Container}>Free</Text>
+                  )}
                 </TouchableOpacity>
               </TouchableOpacity>
               {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}
@@ -94,8 +111,9 @@ const styles = StyleSheet.create({
     // ,width:'30%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexWrap: 'wrap',
     marginLeft: 5,
     marginBottom: 5,
     // padding:20,
@@ -142,7 +160,17 @@ const styles = StyleSheet.create({
     right: 0,
   },
   Go_text_Container: {
-    backgroundColor: '#F47723',
+    backgroundColor: '#ACD5FA',
+    borderTopLeftRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 500,
+  },
+  Free_text_Container: {
+    backgroundColor: '#EB9371',
     borderTopLeftRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,

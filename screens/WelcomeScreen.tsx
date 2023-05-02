@@ -1,11 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {useGobalContext} from './GlobalContext';
 
 const WelcomeScreen = ({navigation}) => {
+  const {ScrapBuddyLOGO} = useGobalContext();
   return (
     <View style={styles.container}>
       <View style={styles.innercontainer}>
-        <Text style={styles.title}>Welcome to MyApp</Text>
+        <View style={{width: 100, aspectRatio: 2 / 2.5}}>
+          <Image
+            source={ScrapBuddyLOGO}
+            style={{width: '100%', height: '100%'}}
+          />
+        </View>
+        <Text style={styles.title}>Welcome to Scrap Buddy</Text>
         <Text style={styles.subtitle}>
           MyApp is the best way to stay organized and productive.
         </Text>
@@ -23,11 +31,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     paddingHorizontal: 20,
-    color:"black",
+    color: '#99DDCC',
+    backgroundColor: '#BAD7DF',
   },
   innercontainer: {
+    flexDirection: 'column',
+    gap: 12,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -36,24 +47,24 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
-    color:"black",
-
+    color: '#212A3E',
+    marginTop: 40,
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
-    color:"black",
-    
-  }, 
+    color: '#394867',
+  },
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 20,
+    borderWidth: 1,
   },
   buttonText: {
-    color: 'orange',
+    color: '#212A3E',
     fontSize: 16,
   },
 });

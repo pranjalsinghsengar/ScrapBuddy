@@ -4,11 +4,24 @@ import React, {useEffect, useState} from 'react';
 import SearchIcon from './SearchIcon';
 import database, {firebase} from '@react-native-firebase/database';
 
-const DummyImage = `'../assets/Frame.png'`;
+const ironImg = require('../assets/Abstract.png');
+const SteelBeam = require('../assets/SteelBeam.png');
+const CopperBars = require('../assets/CopperBars.png');
+const plasticBottle = require('../assets/Oceanpollution.png');
+// const plasticBottle = require('../assets/plasticbottlewitharedcap.png');
+const Others = require('../assets/Plasticwastesorting.png');
+const stackpaper = require('../assets/stackpaper.png');
+const woodblock = require('../assets/WoodenBeerKeg.png');
+
 const Search = () => {
   const [searchProduct, setSearchProduct] = useState();
-  const [userWoodData, setUserData] = useState([]);
-  const [PlasticData, setplacticData] = useState([]);
+  const [ironData, setIronData] = useState([]);
+  const [stealData, setstealData] = useState([]);
+  const [copperData, setcopperData] = useState([]);
+  const [woodData, setwoodData] = useState([]);
+  const [paperData, setpaperData] = useState([]);
+  const [plasticData, setplacticData] = useState([]);
+  const [otherData, setotherData] = useState([]);
 
   useEffect(() => {
     FetchData();
@@ -19,21 +32,67 @@ const Search = () => {
       const FetchDB = await database().ref(`/users`).orderByKey();
       // FetchDB.keepSynced(true);
       FetchDB.on('value', querySnapshot => {
+        const Iron = [];
+        const Steel = [];
+        const Copper = [];
         const Wood = [];
+        const Paper = [];
         const Plastic = [];
+        const Other = [];
         querySnapshot.forEach(child => {
           // console.log('Home_child.Key=> ', child.key);
           console.log('Home_child.val=> ', child.val());
           // let keyname = child.key;
-
           let data = child.val();
 
+          child
+            .child('uplaod')
+            .child('Iron')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Iron: ', imgURLs);
+
+              Iron.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
+          child
+            .child('uplaod')
+            .child('Steel')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Steel: ', imgURLs);
+
+              Steel.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
+          child
+            .child('uplaod')
+            .child('Copper')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Copper: ', imgURLs);
+
+              Copper.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
           child
             .child('uplaod')
             .child('Wood')
             .forEach(child => {
               var imgURLs = child.val();
-              console.log('WoodData: ', imgURLs);
+              console.log('Wood: ', imgURLs);
 
               Wood.push({
                 data: data,
@@ -42,7 +101,21 @@ const Search = () => {
                 // });
               });
             });
-            child
+          child
+            .child('uplaod')
+            .child('Paper')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Paper: ', imgURLs);
+
+              Paper.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
+          child
             .child('uplaod')
             .child('Plastic')
             .forEach(child => {
@@ -56,11 +129,30 @@ const Search = () => {
                 // });
               });
             });
+          child
+            .child('uplaod')
+            .child('Other')
+            .forEach(child => {
+              var imgURLs = child.val();
+              console.log('Other: ', imgURLs);
+
+              Other.push({
+                data: data,
+                imgURLs: imgURLs,
+                // data: upload,
+                // });
+              });
+            });
         });
-        setUserData(Wood);
+        setIronData(Iron);
+        setstealData(Steel);
+        setcopperData(Copper);
+        setwoodData(Wood);
+        setpaperData(Paper);
         setplacticData(Plastic);
+        setotherData(Other);
         // console.log('val: ', main);
-        console.log('Wood: ', Wood);
+        // console.log('Wood: ', Wood);
       });
     } catch (e) {
       console.log(e);
@@ -73,18 +165,18 @@ const Search = () => {
       <TextInput
         style={{
           borderWidth: 0.8,
-          borderRadius: 50,
-          borderColor: 'orange',
+          borderRadius: 10,
+          borderColor: '#79BBF6',
           width: '90%',
-          height: 40,
+          // height: 40,
           paddingHorizontal: 20,
-          paddingVertical: 0,
+          paddingVertical: 10,
           marginVertical: 10,
-          color: '#F77300',
+          color: '#79BBF6',
           letterSpacing: 2,
           textTransform: 'capitalize',
         }}
-        placeholderTextColor="orange"
+        placeholderTextColor="#79BBF6"
         placeholder="Search"
         value={searchProduct}
         onChangeText={text => setSearchProduct(text)}
@@ -98,23 +190,26 @@ const Search = () => {
           width: '90%',
           gap: 10,
         }}>
+        <SearchIcon title="Iron" Data={ironData} IconIMG={ironImg} />
+        <SearchIcon title="Steel" Data={stealData} IconIMG={SteelBeam} />
+        <SearchIcon title="Copper" Data={copperData} IconIMG={CopperBars} />
+        <SearchIcon title="Wood" Data={woodData} IconIMG={woodblock} />
+        <SearchIcon title="Paper" Data={paperData} IconIMG={stackpaper} />
         <SearchIcon
-          title="Wood"
-          IconIMG={DummyImage}
-          Data={userWoodData}
+          title="Plastic"
+          Data={plasticData}
+          IconIMG={plasticBottle}
         />
-        {/* <SearchIcon title="Cotton"  />
-        <SearchIcon title="Silk" /> */}
-        <SearchIcon title="Plastic" Data={PlasticData} />
-        {/* <SearchIcon title="Cloth" />
-        <SearchIcon title="Rubber" /> */}
+        <SearchIcon title="Other" Data={otherData} IconIMG={Others} />
+        {/* <SearchIcon title="Rubber" Data={}/> */}
       </View>
       <View
         style={{
           width: '90%',
-          height: 200,
-          backgroundColor: 'red',
+          height: 500,
+          backgroundColor: '#BAD7F1BD',
           borderRadius: 10,
+          marginTop: 20,
         }}></View>
       {/* <View style={{width: '90%', height: 200, backgroundColor: 'red'}}></View> */}
     </View>

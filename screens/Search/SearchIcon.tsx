@@ -11,11 +11,11 @@ const SearchIcon = ({title, IconIMG, Data}) => {
         navigation.navigate('ShowProducts', {Data: Data});
       }}>
       <Image
-        source={{uri: IconIMG}}
+        source={IconIMG}
         style={{
           width: 100,
           height: 100,
-          backgroundColor: 'red',
+          // backgroundColor: 'red',
           borderRadius: 60,
         }}
       />
@@ -23,8 +23,9 @@ const SearchIcon = ({title, IconIMG, Data}) => {
         style={{
           color: 'black',
           textAlign: 'center',
-          fontWeight: '700',
-          fontSize: 20,
+          fontWeight: '500',
+          fontSize: 15,
+          letterSpacing: 1,
         }}>
         {title}
       </Text>

@@ -35,19 +35,25 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 const PickImage = () => {
   const {userIdRef} = useGobalContext();
-  const [discription, setDiscription] = useState('');
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [uploadedUrl, setUploadedUrl] = useState(null);
   const uploadedUrlRef = useRef(null);
   const [elementName, setElementName] = useState('');
+  const [discription, setDiscription] = useState('');
+  const [payType, setPayType] = useState('');
 
   const [open, setOpen] = useState(false);
   const [selectvalue, setSelectvalue] = useState(null);
   const [items, setItems] = useState([
+    {label: 'Iron', value: 'Iron'},
+    {label: 'Steel', value: 'Steel'},
+    {label: 'Copper', value: 'Copper'},
     {label: 'Wood', value: 'Wood'},
+    {label: 'Paper', value: 'Paper'},
     {label: 'Plastic', value: 'Plastic'},
+    {label: 'Other', value: 'Other'},
   ]);
 
   useEffect(() => {
@@ -97,6 +103,7 @@ const PickImage = () => {
           elementName: elementName,
           discription: discription,
           type: selectvalue,
+          paytype: payType,
         })
         .then(() => {
           console.log('UserID: ' + userIdRef.current);
@@ -181,6 +188,22 @@ const PickImage = () => {
                       }}
                     />
                     <TextInput
+                      placeholder="Ammount/Free"
+                      placeholderTextColor="black"
+                      keyboardType="decimal-pad"
+                      onChangeText={e => setPayType(e)}
+                      value={payType}
+                      // scrollEnabled= 'true'
+                      style={{
+                        width: 300,
+                        // height: 200,
+
+                        fontSize: 24,
+                        fontWeight: '500',
+                        // marginTop: 30,
+                      }}
+                    />
+                    <TextInput
                       editable
                       multiline
                       placeholder="Discription"
@@ -211,6 +234,7 @@ const PickImage = () => {
                     setValue={setSelectvalue}
                     setItems={setItems}
                     style={{borderColor: 'transparent'}}
+                    listMode="SCROLLVIEW"
                     translation={{
                       PLACEHOLDER: 'Select Category',
                     }}
@@ -218,6 +242,7 @@ const PickImage = () => {
                       // backgroundColor: "#D30505"
                       // ,width:"80%"
                       borderColor: 'transparent',
+                      minHeight: 300,
                     }}
                     placeholderStyle={{
                       color: 'grey',
@@ -232,26 +257,48 @@ const PickImage = () => {
           </>
         ) : null}
       </View>
-      <View style={styles.uploadImage}>
-        <View style={styles.PickImage_btn}>
-          <PickImageBtn onPressData={takePhotoFromCamera} btn_Text={'Camera'} />
-          <PickImageBtn
-            onPressData={ChoosePhotoFromLybrary}
-            btn_Text={'Drive'}
-          />
-        </View>
-        {selectvalue ? (
-          uploading ? (
-            <>
-              <Text>{transferred} % Completed </Text>
 
-              <ActivityIndicator size="large" color="#000000" />
-            </>
-          ) : (
-            <UploadImageBtn onPressData={SubmitPost} btn_Text={'Upload'} />
-          )
+      <View style={styles.uploadImage}>
+        {image ? (
+          <>
+            <PickImageBtn
+              onPressData={() => {
+                [setImage(null), setSelectvalue(null)];
+              }}
+              btn_Text={'Remove'}
+            />
+            {selectvalue ? (
+              uploading ? (
+                <>
+                  <Text>{transferred} % Completed </Text>
+
+                  <ActivityIndicator size="large" color="#000000" />
+                </>
+              ) : (
+                <>
+                  <UploadImageBtn
+                    onPressData={SubmitPost}
+                    btn_Text={'Upload'}
+                  />
+                </>
+              )
+            ) : (
+              <>
+                <UnSubmitUploadImageBtn btn_Text={'Upload'} />
+              </>
+            )}
+          </>
         ) : (
-          <UnSubmitUploadImageBtn btn_Text={'Upload'} />
+          <View style={styles.PickImage_btn}>
+            <PickImageBtn
+              onPressData={takePhotoFromCamera}
+              btn_Text={'Camera'}
+            />
+            <PickImageBtn
+              onPressData={ChoosePhotoFromLybrary}
+              btn_Text={'Drive'}
+            />
+          </View>
         )}
       </View>
     </View>
@@ -299,18 +346,21 @@ const styles = StyleSheet.create({
   uploadImage: {
     flex: 1 / 10,
     // backgroundColor:"red",
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
     flexDirection: 'row',
-    gap: 4,
+    // gap: 4,
     marginBottom: 10,
   },
   PickImage_btn: {
-    display: 'flex',
-    // width: '100%',
+    // borderRadius: 100,
+    // overflow: 'hidden',
+    // display: 'flex',
+    // width: '50%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    borderRadius: 50,
+    gap: 10,
+    // borderRadius: 50,
     // backgroundColor:"red"
   },
   form_Container: {

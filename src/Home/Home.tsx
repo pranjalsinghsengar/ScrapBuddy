@@ -8,6 +8,7 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import {useGobalContext} from '../../screens/GlobalContext';
 import ShowUserData from '../../screens/ShowUserData';
@@ -20,12 +21,13 @@ const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [userData, setUserData] = useState([]);
   const {userIdRef} = useGobalContext();
+  const [ratio, setRatio] = useState(1);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -81,14 +83,30 @@ const Home = ({navigation}) => {
         setUserData(main);
         // console.log('val: ', main);
         console.log('Home_newData: ', main);
+        // console.log('=>>>>>>>>>>: ', main.data.user_Bio);
         console.log('Home_global: ', userIdRef.current);
+        main.map((item, index) => {
+          setImgdimension(item.imgURLs.ImgUrl);
+        });
       });
     } catch (e) {
       console.log(e);
     }
   };
-  // console.log('Home_newData: ', userData);
 
+  const width = useWindowDimensions().width;
+  const numColumns = Math.ceil(width / 350);
+
+  const [imgdimension, setImgdimension] = useState();
+
+  console.log('=>>>>>>>>>>> ', imgdimension);
+  useEffect(() => {
+    if (imgdimension) {
+      Image.getSize(imgdimension, (width, height) => setRatio(width / height));
+    }
+  }, [imgdimension]);
+
+  // console.log('Home_newData: ', userData);
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -98,62 +116,87 @@ const Home = ({navigation}) => {
       <View style={{flex: 1}}>
         <View style={styles.hehe}>
           <View style={styles.main_container}>
-            <Text style={{color: 'black'}}>Home</Text>
+            <Text style={styles.Inner_main_container}>Scrap Buddy</Text>
           </View>
         </View>
       </View>
       {/* <ShowUserData /> */}
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        {userData.map((item, index) => {
-          // TODO 1: Element_Name, 2: UserName, 3: Image_Of_Product, 4:
-          return (
-            <View
-              key={index}
-              style={{
-                width: '90%',
-                backgroundColor: 'white',
-                padding: 10,
-                borderRadius: 15,
-                marginVertical: 10,
-              }}>
-              <View style={styles.userName_container}>
-                {item.imgURLs.elementName ? (
-                  <Text style={styles.element_Name}>
-                    {item.imgURLs.elementName}
-                  </Text>
-                ) : null}
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
+          // flexWrap: 'wrap',
+        }}>
+        {Array.from(Array(numColumns)).map((_, colIndex) => (
+          <View style={{flex: 1}} key={colIndex}>
+            {userData
+              .filter((_, index) => index % numColumns === colIndex)
+              .map((item, index) => {
+                // TODO 1: Element_Name, 2: UserName, 3: Image_Of_Product, 4:
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      width: '100%',
+                      // aspectRatio: ratio,
+                      backgroundColor: 'white',
+                      padding: 10,
+                      // borderRadius: 15,
+                      // marginVertical: 10,
+                    }}>
+                    <View style={styles.userName_container}>
+                      {item.imgURLs.elementName ? (
+                        <Text style={styles.element_Name}>
+                          {item.imgURLs.elementName}
+                        </Text>
+                      ) : null}
+                      {item.data.user_Name ? (
+                        <Text style={styles.userName}>
+                          {item.data.user_Name}
+                        </Text>
+                      ) : null}
+                      {item.imgURLs.type ? (
+                        <Text style={styles.type}>{item.imgURLs.type}</Text>
+                      ) : null}
+                    </View>
 
-                {item.data.user_Name ? (
-                  <Text style={styles.userName}>{item.data.user_Name}</Text>
-                ) : null}
-                {item.imgURLs.type ? (
-                  <Text style={styles.type}>{item.imgURLs.type}</Text>
-                ) : null}
-              </View>
+                    <TouchableOpacity
+                      // onPress={()=> navigate('home')}
+                      style={styles.image_Container}
+                      onPress={() =>
+                        navigation.navigate('BuyPage', {
+                          ImgUrl: item.imgURLs.ImgUrl,
+                          elementName: item.imgURLs.elementName,
+                          discription: item.imgURLs.discription,
+                          payType: item.imgURLs.paytype,
+                          user_Name: item.data.user_Name,
+                          type: item.imgURLs.type,
+                        })
+                      }>
+                      <Image
+                        style={[styles.image_style, {aspectRatio: ratio}]}
+                        source={{uri: item.imgURLs.ImgUrl}}
+                      />
 
-              <TouchableOpacity
-                // onPress={()=> navigate('home')}
-                style={styles.image_Container}
-                onPress={() =>
-                  navigation.navigate('BuyPage', {
-                    Show_Img: item.imgURLs.ImgUrl,
-                    elementName: item.imgURLs.elementName,
-                    discription: item.imgURLs.discription,
-                  })
-                }>
-                <Image
-                  style={styles.image_style}
-                  source={{uri: item.imgURLs.ImgUrl}}
-                />
-
-                <TouchableOpacity style={styles.btn_Container}>
-                  <Text style={styles.Go_text_Container}> Go </Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-              {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}
-            </View>
-          );
-        })}
+                      <TouchableOpacity style={styles.btn_Container}>
+                        <Text style={styles.Go_text_Container}>
+                          {' '}
+                          {item.imgURLs.paytype ? (
+                            <>{item.imgURLs.paytype}</>
+                          ) : (
+                            'free'
+                          )}{' '}
+                        </Text>
+                      </TouchableOpacity>
+                    </TouchableOpacity>
+                    {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}
+                  </View>
+                );
+              })}
+          </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -165,16 +208,19 @@ const styles = StyleSheet.create({
     // height: '100%',
   },
   main_container: {
-    flex: 1,
-    width: '100%',
-    display: 'flex',
+    backgroundColor: '#BAD7F1',
+    // flex: 1,
+    // width: '100%',
+    height: 50,
+    // display: 'flex',
     flexDirection: 'column',
-    gap: 10,
+    justifyContent: 'center',
+    // gap: 10,
     alignItems: 'center',
   },
   Inner_main_container: {
-    flex: 1,
-    width: '90%',
+    fontSize: 30,
+
     // height: '100%',
   },
   element_Name: {
@@ -199,8 +245,9 @@ const styles = StyleSheet.create({
     // ,width:'30%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-evenly',
     alignItems: 'flex-end',
+    flexWrap: 'wrap',
     marginLeft: 5,
     marginBottom: 5,
     // padding:20,
@@ -233,8 +280,8 @@ const styles = StyleSheet.create({
   },
   image_style: {
     // width: 400,
-    // width:"80%",
-    height: 250,
+    width: '100%',
+    // height: 250,
 
     backgroundColor: '#5F5F5F3B',
   },

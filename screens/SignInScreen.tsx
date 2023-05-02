@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 // import {firebase} from '@react-native-firebase/database';
@@ -24,7 +25,7 @@ const SignInScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {setUserId} = useGobalContext();
-  const {userIdRef} = useGobalContext();
+  const {userIdRef, ScrapBuddyLOGO} = useGobalContext();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   // const navigation = useNavigation();
@@ -33,7 +34,9 @@ const SignInScreen = ({navigation}) => {
     FetchData();
   }, []);
 
-  useEffect(() => {});
+  // useEffect(() => {
+  //   Navi();
+  // },[]);
 
   const Navi = async () => {
     await setTimeout(() => {
@@ -70,10 +73,11 @@ const SignInScreen = ({navigation}) => {
   const handleSignIn = async () => {
     if ((email, password)) {
       try {
-        await auth().signInWithEmailAndPassword(email, password);
-        // navigation.navigate(userData ? 'BottomNav' : 'ConfirmNewUser');
         setLoading(true);
         Navi();
+
+        await auth().signInWithEmailAndPassword(email, password);
+        // navigation.navigate(userData ? 'BottomNav' : 'ConfirmNewUser');
 
         await firebase.auth().onAuthStateChanged(user => {
           setUserId(user.uid);
@@ -99,42 +103,67 @@ const SignInScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
-      <TextInput
-        style={styles.input}
-        placeholderTextColor="black"
-        placeholder="Email"
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-      <TextInput
-        placeholderTextColor="black"
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={text => setPassword(text)}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        {loading ? (
-          <ActivityIndicator />
+      <View
+        style={{
+          marginBottom: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            width: '20%',
+            aspectRatio: 2 / 2.5,
+            // height: '30%',
+            marginRight: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{width: '100%', height: '100%'}}
+            source={ScrapBuddyLOGO}
+          />
+        </View>
+        <Text style={{color: '#1A6575', fontSize: 30}}>ScrapBuddy</Text>
+      </View>
+
+      <View style={styles.SignIn_container}>
+        <Text style={styles.title}>Sign In</Text>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="black"
+          placeholder="Email"
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+        <TextInput
+          placeholderTextColor="black"
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+          {loading ? (
+            <ActivityIndicator />
           ) : (
-          <Text style={styles.buttonText}>Sign In</Text>
-        )}
-      </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          )}
+        </TouchableOpacity>
+        {/* <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
         <Text style={styles.buttonText}>Google</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
         <Text style={styles.buttonText}>FaceBook</Text>
       </TouchableOpacity> */}
-      <TouchableOpacity
-        style={{marginTop: 30}}
-        onPress={() => navigation.navigate('SignUpScreen')}>
-        <Text style={{color: 'black'}}>
-          Don't have Account?/Create a new account
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={{marginTop: 30}}
+          onPress={() => navigation.navigate('SignUpScreen')}>
+          <Text style={{color: 'black'}}>
+            Don't have Account?/Create a new account
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -143,6 +172,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-evenly',
+    paddingHorizontal: 20,
+    backgroundColor: '#BAD7DF',
+  },
+  SignIn_container: {
+    width: '100%',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
@@ -150,13 +186,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 30,
-    color: 'black',
+    color: '#1A6575',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ffffff',
+    backgroundColor: '#ffffff',
     borderRadius: 5,
-    padding: 10,
+    padding: 15,
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
@@ -164,7 +201,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#1A6575',
     // paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 5,
