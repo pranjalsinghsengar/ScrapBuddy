@@ -155,6 +155,7 @@ const PickImage = () => {
   };
 
   return (
+    // <ScrollView>
     <View style={styles.PickImage_Container}>
       <View style={styles.showImage}>
         {image !== null ? (
@@ -168,8 +169,8 @@ const PickImage = () => {
 
             <View style={styles.form_Container}>
               {selectvalue ? (
-                <ScrollView>
-                  <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20}}>
+                  <ScrollView>
                     <TextInput
                       editable
                       multiline
@@ -182,7 +183,7 @@ const PickImage = () => {
                         width: 300,
                         // height: 200,
 
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: '500',
                         // marginTop: 30,
                       }}
@@ -197,8 +198,8 @@ const PickImage = () => {
                       style={{
                         width: 300,
                         // height: 200,
-
-                        fontSize: 24,
+                        color: '#1A6575',
+                        fontSize: 18,
                         fontWeight: '500',
                         // marginTop: 30,
                       }}
@@ -211,19 +212,19 @@ const PickImage = () => {
                       onChangeText={e => setDiscription(e)}
                       value={discription}
                       // scrollEnabled= 'true'
-                      numberOfLines={3}
+                      numberOfLines={8}
                       style={{
                         width: 300,
-                        // height: 200,
+                        // minHeight: 200,
 
-                        fontSize: 20,
+                        fontSize: 18,
                         // fontWeight: '500',
                         // marginTop: 30,
                         // lineHeight: 1,
                       }}
                     />
-                  </View>
-                </ScrollView>
+                  </ScrollView>
+                </View>
               ) : (
                 <View style={{width: 200}}>
                   <DropDownPicker
@@ -344,13 +345,16 @@ const styles = StyleSheet.create({
     transform: [{translateX: 0}, {translateY: 20}],
   },
   uploadImage: {
-    flex: 1 / 10,
+    // flex: 1 / 10,
+    position: 'absolute',
+    bottom: 100,
+
     // backgroundColor:"red",
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
     // gap: 4,
-    marginBottom: 10,
+    // marginBottom: 100,
   },
   PickImage_btn: {
     // borderRadius: 100,

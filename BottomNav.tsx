@@ -1,29 +1,41 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+// import Icon from 'react-native-vector-icons/Ionicons';
 import Home from './src/Home/Home';
 import Profile from './src/Profile/Profile';
 import Upload from './src/Upload/Upload';
 import Search from './screens/Search/Search';
+import Icon from 'react-native-vector-icons/FontAwesome';
+// import FontAwesome, {RegularIcons} from 'react-native-fontawesome';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const BottomNav = ({navigation}) => {
   // const {userId, setUserId } = route.params;
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#e91e63"
-      barStyle={{backgroundColor: 'tomato'}}>
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#1A6575',
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          borderRadius: 50,
+          position: 'absolute',
+          bottom: 20,
+          marginRight: 15,
+          marginLeft: 15,
+        },
+      }}>
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <FontAwesome name="home" color={color} size={26} />
+          tabBarIcon: ({color, size}) => (
+            <Icon name="home" color={color} size={26} />
           ),
         }}
       />
@@ -33,7 +45,7 @@ const BottomNav = ({navigation}) => {
         options={{
           // tabBarLabel: 'Upload',
           tabBarIcon: ({color}) => (
-            <FontAwesome name="search" color={color} size={26} />
+            <Icon name="search" color={color} size={26} />
           ),
         }}
       />
@@ -43,7 +55,7 @@ const BottomNav = ({navigation}) => {
         options={{
           // tabBarLabel: 'Upload',
           tabBarIcon: ({color}) => (
-            <FontAwesome name="upload" color={color} size={26} />
+            <Icon name="upload" color={color} size={26} />
           ),
         }}
       />

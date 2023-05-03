@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import Form from './Form';
 import {useGobalContext} from './GlobalContext';
@@ -23,7 +24,7 @@ const SignUpScreen = ({navigation}) => {
   const [phoneNo, setPhoneNo] = useState('');
   const [userIdSignup, setUserIdSignup] = useState(null);
   const userIdSignupRef = useRef(null);
-
+  const {ScrapBuddyLOGO} = useGobalContext();
   // const {userId, setUserId, userIdRef} = useGobalContext();
 
   useEffect(() => {
@@ -109,52 +110,76 @@ const SignUpScreen = ({navigation}) => {
           back
         </Text>
       </View>
-      <Text style={styles.title}>Sign Up</Text>
-      {/* <Text style={styles.title}>{userIdRef}</Text> */}
-      <Text style={styles.title}>{userIdSignupRef.current}</Text>
-      {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
-      {/* Form */}
-      <TextInput
-        onChangeText={e => setUserName(e)}
-        value={userName}
-        placeholderTextColor="black"
-        placeholder="Full Name"
-        style={styles.input}
-      />
-      <TextInput
-        onChangeText={e => setUserBio(e)}
-        value={userbio}
-        placeholderTextColor="black"
-        placeholder="Bio"
-        style={styles.input}
-      />
-      <TextInput
-        onChangeText={e => setPhoneNo(e)}
-        value={phoneNo}
-        placeholderTextColor="black"
-        placeholder="Phone Number"
-        style={styles.input}
-        keyboardType="numeric"
-      />
-      <TextInput
-        keyboardType="email-address"
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="black"
-        value={email}
-        onChangeText={e => setEmail(e)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="black"
-        value={password}
-        onChangeText={e => setPassword(e)}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          marginBottom: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            width: '20%',
+            aspectRatio: 2 / 2.5,
+            // height: '30%',
+            marginRight: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{width: '100%', height: '100%'}}
+            source={ScrapBuddyLOGO}
+          />
+        </View>
+        <Text style={{color: '#1A6575', fontSize: 30}}>ScrapBuddy</Text>
+      </View>
+
+      <View style={styles.SignUp_container}>
+        <Text style={styles.title}>Sign Up</Text>
+        {/* <Text style={styles.title}>{userIdRef}</Text> */}
+        {/* <Text style={styles.title}>{userIdRef.current.userId}</Text> */}
+        {/* Form */}
+        <TextInput
+          onChangeText={e => setUserName(e)}
+          value={userName}
+          placeholderTextColor="#C6C6C68D"
+          placeholder="Full Name"
+          style={styles.input}
+        />
+        <TextInput
+          onChangeText={e => setUserBio(e)}
+          value={userbio}
+          placeholderTextColor="#C6C6C68D"
+          placeholder="Bio"
+          style={styles.input}
+        />
+        <TextInput
+          onChangeText={e => setPhoneNo(e)}
+          value={phoneNo}
+          placeholderTextColor="#C6C6C68D"
+          placeholder="Phone Number"
+          style={styles.input}
+          keyboardType="numeric"
+        />
+        <TextInput
+          keyboardType="email-address"
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#C6C6C68D"
+          value={email}
+          onChangeText={e => setEmail(e)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#C6C6C68D"
+          value={password}
+          onChangeText={e => setPassword(e)}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.button} onPress={() => HandleSignUp()}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -163,33 +188,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-evenly',
+    paddingHorizontal: 20,
+    backgroundColor: '#FFE2E2',
+  },
+  SignUp_container: {
+    width: '100%',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 30,
-    color: 'black',
+    color: '#1A6575',
+
     fontWeight: 'bold',
     marginBottom: 30,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ffffff',
+    backgroundColor: '#ffffff',
     borderRadius: 5,
-    padding: 10,
+    padding: 15,
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
-    color: 'black',
+    color: '#86B6C3',
   },
   button: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    width: '90%',
+    backgroundColor: '#1A6575',
+    // paddingHorizontal: 20,
+    paddingVertical: 15,
     borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
-    color: 'white',
+    textAlign: 'center',
+    color: '#F1F6F9',
     fontSize: 16,
   },
 });

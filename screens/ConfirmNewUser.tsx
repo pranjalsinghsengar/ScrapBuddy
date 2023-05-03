@@ -1,4 +1,4 @@
-import {StyleSheet, Text,Alert, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, Alert, View, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BottomNav from '../BottomNav';
 import database, {firebase} from '@react-native-firebase/database';
@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import WelcomeScreen from './WelcomeScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BuyPage from '../src/NewuserDisplay/BuyPage';
+import Page1 from '../src/BordingPage/Page1';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,18 +53,17 @@ const ConfirmNewUser = () => {
   //     setLoading(false);
   //   }, 1000);
   // };
-  
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}} >
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       {
         userData ? (
           // <ActivityIndicator
 
+          <Stack.Screen name="Page_1" component={Page1} />
+        ) : (
           // <Text style={{color: 'blue'}}>sad</Text>
           <Stack.Screen name="BottomNav" component={BottomNav} />
-        ) : (
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
         )
         // User is signed in
       }

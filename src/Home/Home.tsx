@@ -113,13 +113,13 @@ const Home = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{flex: 1}}>
+      {/* <View style={{flex: 1}}>
         <View style={styles.hehe}>
           <View style={styles.main_container}>
             <Text style={styles.Inner_main_container}>Scrap Buddy</Text>
           </View>
         </View>
-      </View>
+      </View> */}
       {/* <ShowUserData /> */}
       <View
         style={{
@@ -139,12 +139,14 @@ const Home = ({navigation}) => {
                   <View
                     key={index}
                     style={{
-                      width: '100%',
+                      width: '98%',
                       // aspectRatio: ratio,
                       backgroundColor: 'white',
                       padding: 10,
-                      // borderRadius: 15,
-                      // marginVertical: 10,
+                      borderRadius: 10,
+                      // borderColor: '#1A6575',
+                      // borderWidth: 1,
+                      marginVertical: 5,
                     }}>
                     <View style={styles.userName_container}>
                       {item.imgURLs.elementName ? (
@@ -294,14 +296,14 @@ const styles = StyleSheet.create({
     right: 0,
   },
   Go_text_Container: {
-    backgroundColor: '#F47723',
+    backgroundColor: '#1A6575',
     borderTopLeftRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
 
     color: 'white',
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
   },
 });
 export default Home;

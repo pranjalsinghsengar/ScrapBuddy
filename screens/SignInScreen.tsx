@@ -41,9 +41,9 @@ const SignInScreen = ({navigation}) => {
   const Navi = async () => {
     await setTimeout(() => {
       // Alert.alert('I am appearing...', 'After 5 seconds!');
-      navigation.navigate('ConfirmNewUser');
+      navigation.navigate('BottomNav');
       setLoading(false);
-    }, 2000);
+    }, 700);
   };
 
   const FetchData = async () => {
@@ -130,15 +130,17 @@ const SignInScreen = ({navigation}) => {
         <Text style={styles.title}>Sign In</Text>
         <TextInput
           style={styles.input}
-          placeholderTextColor="black"
+          placeholderTextColor="#C6C6C68D"
           placeholder="Email"
           value={email}
           onChangeText={text => setEmail(text)}
         />
         <TextInput
-          placeholderTextColor="black"
+          placeholderTextColor="#C6C6C68D"
           style={styles.input}
           placeholder="Password"
+          keyboardAppearance="default"
+          keyboardType="decimal-pad"
           value={password}
           onChangeText={text => setPassword(text)}
           secureTextEntry
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
     fontSize: 16,
-    color: 'black',
+    color: '#86B6C3',
   },
   button: {
     width: '100%',

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 import SearchIcon from './SearchIcon';
@@ -160,59 +160,66 @@ const Search = () => {
   };
 
   return (
-    <View
-      style={{flex: 1, alignItems: 'center', flexDirection: 'column', gap: 10}}>
-      <TextInput
-        style={{
-          borderWidth: 0.8,
-          borderRadius: 10,
-          borderColor: '#79BBF6',
-          width: '90%',
-          // height: 40,
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-          marginVertical: 10,
-          color: '#79BBF6',
-          letterSpacing: 2,
-          textTransform: 'capitalize',
-        }}
-        placeholderTextColor="#79BBF6"
-        placeholder="Search"
-        value={searchProduct}
-        onChangeText={text => setSearchProduct(text)}
-      />
+    <ScrollView>
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          flexWrap: 'wrap',
-          width: '90%',
+          flex: 1,
+          alignItems: 'center',
+          flexDirection: 'column',
           gap: 10,
         }}>
-        <SearchIcon title="Iron" Data={ironData} IconIMG={ironImg} />
-        <SearchIcon title="Steel" Data={stealData} IconIMG={SteelBeam} />
-        <SearchIcon title="Copper" Data={copperData} IconIMG={CopperBars} />
-        <SearchIcon title="Wood" Data={woodData} IconIMG={woodblock} />
-        <SearchIcon title="Paper" Data={paperData} IconIMG={stackpaper} />
-        <SearchIcon
-          title="Plastic"
-          Data={plasticData}
-          IconIMG={plasticBottle}
+        <TextInput
+          style={{
+            borderWidth: 0.8,
+            borderRadius: 10,
+            borderColor: '#1A6575',
+            width: '90%',
+            // height: 40,
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            marginVertical: 10,
+            color: '#1A6575',
+            letterSpacing: 2,
+            textTransform: 'capitalize',
+          }}
+          placeholderTextColor="#1A6575"
+          placeholder="Search"
+          value={searchProduct}
+          onChangeText={text => setSearchProduct(text)}
         />
-        <SearchIcon title="Other" Data={otherData} IconIMG={Others} />
-        {/* <SearchIcon title="Rubber" Data={}/> */}
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            flexWrap: 'wrap',
+            width: '90%',
+            gap: 10,
+          }}>
+          <SearchIcon title="Iron" Data={ironData} IconIMG={ironImg} />
+          <SearchIcon title="Steel" Data={stealData} IconIMG={SteelBeam} />
+          <SearchIcon title="Copper" Data={copperData} IconIMG={CopperBars} />
+          <SearchIcon title="Wood" Data={woodData} IconIMG={woodblock} />
+          <SearchIcon title="Paper" Data={paperData} IconIMG={stackpaper} />
+          <SearchIcon
+            title="Plastic"
+            Data={plasticData}
+            IconIMG={plasticBottle}
+          />
+          <SearchIcon title="Other" Data={otherData} IconIMG={Others} />
+          {/* <SearchIcon title="Rubber" Data={}/> */}
+        </View>
+        <View
+          style={{
+            width: '90%',
+            height: 500,
+            backgroundColor: '#BAD7F1BD',
+            borderRadius: 10,
+            marginTop: 20,
+          }}></View>
+        {/* <View style={{width: '90%', height: 200, backgroundColor: 'red'}}></View> */}
       </View>
-      <View
-        style={{
-          width: '90%',
-          height: 500,
-          backgroundColor: '#BAD7F1BD',
-          borderRadius: 10,
-          marginTop: 20,
-        }}></View>
-      {/* <View style={{width: '90%', height: 200, backgroundColor: 'red'}}></View> */}
-    </View>
+    </ScrollView>
   );
 };
 
