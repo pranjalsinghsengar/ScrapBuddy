@@ -9,13 +9,17 @@ import {
 } from 'react-native';
 // import { MaterialIcons } from ';
 
-const BuyPage = ({route}) => {
+const BuyPage = ({route, navigation}) => {
   const user_Name = route.params.user_Name;
   const Show_Img = route.params.ImgUrl;
   const element_Name = route.params.elementName;
   const discription_Text = route.params.discription;
   const payType = route.params.payType;
   const type = route.params.type;
+  const user_Phone = route.params.user_Phone;
+
+  // console.log(UserURL);
+
   // console.log('Element_name', Element_name);
   console.log('buypage ImgUrl ', Show_Img);
   console.log('buypage elementName ', element_Name);
@@ -36,6 +40,9 @@ const BuyPage = ({route}) => {
 
   const handleCheckout = () => {
     // Implement checkout logic here
+    navigation.navigate('ShowOrderDetails', {
+      user_Phone: user_Phone,
+    });
   };
 
   return (

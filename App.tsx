@@ -21,6 +21,7 @@ import SearchIcon from './screens/Search/SearchIcon';
 import ConfirmNewUser from './screens/ConfirmNewUser';
 import BuyPage from './src/NewuserDisplay/BuyPage';
 import Page1 from './src/BordingPage/Page1';
+import ShowOrderDetails from './src/NewuserDisplay/ShowOrderDetails';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -76,17 +77,19 @@ const App = () => {
           {/* User DATA */}
           <Stack.Group>
             <Stack.Screen name="ShowUserData" component={ShowUserData} />
-            <Stack.Screen name="BuyPage" component={BuyPage} />
             <Stack.Screen name="ProductScreen" component={ProductScreen} />
           </Stack.Group>
           {/* upload */}
           <Stack.Group>
             <Stack.Screen name="PickImage" component={PickImage} />
           </Stack.Group>
+          {/* Buy */}
+          <Stack.Screen name="BuyPage" component={BuyPage} />
+          <Stack.Screen name="ShowOrderDetails" component={ShowOrderDetails} />
 
           <Stack.Group>
             <Stack.Screen name="Search" component={Search} />
-            <Stack.Screen name="SearchIcon" component={SearchIcon} />
+            {/* <Stack.Screen name="SearchIcon" component={SearchIcon} /> */}
             <Stack.Screen name="ShowProducts" component={ShowProducts} />
           </Stack.Group>
           {/* Login Screeen\

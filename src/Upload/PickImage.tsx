@@ -74,8 +74,8 @@ const PickImage = () => {
 
   const ChoosePhotoFromLybrary = () => {
     ImagePicker.openPicker({
-      width: 200,
-      height: 300,
+      width: 500,
+      height: 720,
       cropping: true,
     }).then(image => {
       console.log(image);

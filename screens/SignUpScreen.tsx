@@ -171,6 +171,7 @@ const SignUpScreen = ({navigation}) => {
         <TextInput
           style={styles.input}
           placeholder="Password"
+          keyboardType="number-pad"
           placeholderTextColor="#C6C6C68D"
           value={password}
           onChangeText={e => setPassword(e)}

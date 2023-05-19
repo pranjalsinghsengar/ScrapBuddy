@@ -108,99 +108,128 @@ const Home = ({navigation}) => {
 
   // console.log('Home_newData: ', userData);
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollView}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      {/* <View style={{flex: 1}}>
-        <View style={styles.hehe}>
-          <View style={styles.main_container}>
-            <Text style={styles.Inner_main_container}>Scrap Buddy</Text>
-          </View>
-        </View>
-      </View> */}
-      {/* <ShowUserData /> */}
+    <>
       <View
         style={{
-          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          flexDirection: 'row',
-          // flexWrap: 'wrap',
+          backgroundColor: 'black',
+          paddingVertical: 5,
+          position: 'relative',
         }}>
-        {Array.from(Array(numColumns)).map((_, colIndex) => (
-          <View style={{flex: 1}} key={colIndex}>
-            {userData
-              .filter((_, index) => index % numColumns === colIndex)
-              .map((item, index) => {
-                // TODO 1: Element_Name, 2: UserName, 3: Image_Of_Product, 4:
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      width: '98%',
-                      // aspectRatio: ratio,
-                      backgroundColor: 'white',
-                      padding: 10,
-                      borderRadius: 10,
-                      // borderColor: '#1A6575',
-                      // borderWidth: 1,
-                      marginVertical: 5,
-                    }}>
-                    <View style={styles.userName_container}>
-                      {item.imgURLs.elementName ? (
-                        <Text style={styles.element_Name}>
-                          {item.imgURLs.elementName}
-                        </Text>
-                      ) : null}
-                      {item.data.user_Name ? (
-                        <Text style={styles.userName}>
-                          {item.data.user_Name}
-                        </Text>
-                      ) : null}
-                      {item.imgURLs.type ? (
-                        <Text style={styles.type}>{item.imgURLs.type}</Text>
-                      ) : null}
-                    </View>
-
-                    <TouchableOpacity
-                      // onPress={()=> navigate('home')}
-                      style={styles.image_Container}
-                      onPress={() =>
-                        navigation.navigate('BuyPage', {
-                          ImgUrl: item.imgURLs.ImgUrl,
-                          elementName: item.imgURLs.elementName,
-                          discription: item.imgURLs.discription,
-                          payType: item.imgURLs.paytype,
-                          user_Name: item.data.user_Name,
-                          type: item.imgURLs.type,
-                        })
-                      }>
-                      <Image
-                        style={[styles.image_style, {aspectRatio: ratio}]}
-                        source={{uri: item.imgURLs.ImgUrl}}
-                      />
-
-                      <TouchableOpacity style={styles.btn_Container}>
-                        <Text style={styles.Go_text_Container}>
-                          {' '}
-                          {item.imgURLs.paytype ? (
-                            <>{item.imgURLs.paytype}</>
-                          ) : (
-                            'free'
-                          )}{' '}
-                        </Text>
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-                    {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}
-                  </View>
-                );
-              })}
-          </View>
-        ))}
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 25,
+            padding: 15,
+            fontWeight: '500',
+            letterSpacing: 1,
+          }}>
+          Scrap Buddy
+        </Text>
+        <View
+          style={{
+            width: '100%',
+            height: 10,
+            backgroundColor: '#ffffff',
+            fontSize: 25,
+            position: 'absolute',
+            bottom: 0,
+            borderTopRightRadius: 50,
+            borderTopLeftRadius: 50,
+            zIndex: 4,
+          }}></View>
       </View>
-    </ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            borderTopRightRadius: 50,
+
+            // flexWrap: 'wrap',
+          }}>
+          {Array.from(Array(numColumns)).map((_, colIndex) => (
+            <View style={{flex: 1}} key={colIndex}>
+              {userData
+                .filter((_, index) => index % numColumns === colIndex)
+                .map((item, index) => {
+                  // TODO 1: Element_Name, 2: UserName, 3: Image_Of_Product, 4:
+                  return (
+                    <View
+                      key={index}
+                      style={{
+                        width: '98%',
+                        // aspectRatio: ratio,
+                        backgroundColor: 'white',
+                        padding: 10,
+                        borderRadius: 10,
+                        // borderColor: '#1A6575',
+                        // borderWidth: 1,
+                        marginVertical: 5,
+                      }}>
+                      <View style={styles.userName_container}>
+                        {item.imgURLs.elementName ? (
+                          <Text style={styles.element_Name}>
+                            {item.imgURLs.elementName}
+                          </Text>
+                        ) : null}
+                        {item.data.user_Name ? (
+                          <Text style={styles.userName}>
+                            {item.data.user_Name}
+                          </Text>
+                        ) : null}
+                        {item.imgURLs.type ? (
+                          <Text style={styles.type}>{item.imgURLs.type}</Text>
+                        ) : null}
+                      </View>
+
+                      <TouchableOpacity
+                        // onPress={()=> navigate('home')}
+                        style={styles.image_Container}
+                        onPress={() =>
+                          navigation.navigate('BuyPage', {
+                            ImgUrl: item.imgURLs.ImgUrl,
+                            elementName: item.imgURLs.elementName,
+                            discription: item.imgURLs.discription,
+                            payType: item.imgURLs.paytype,
+                            user_Name: item.data.user_Name,
+                            userUID: item.data.uid,
+                            user_Phone: item.data.user_Phone,
+                            type: item.imgURLs.type,
+                          })
+                        }>
+                        <Image
+                          style={[styles.image_style, {aspectRatio: ratio}]}
+                          source={{uri: item.imgURLs.ImgUrl}}
+                        />
+
+                        <TouchableOpacity style={styles.btn_Container}>
+                          <Text style={styles.Go_text_Container}>
+                            {' '}
+                            {item.imgURLs.paytype ? (
+                              <>{item.imgURLs.paytype}</>
+                            ) : (
+                              'free'
+                            )}{' '}
+                          </Text>
+                        </TouchableOpacity>
+                      </TouchableOpacity>
+                      {/* <Text style={styles.about_name}>{item.key.discription}</Text> */}
+                    </View>
+                  );
+                })}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </>
   );
 };
 

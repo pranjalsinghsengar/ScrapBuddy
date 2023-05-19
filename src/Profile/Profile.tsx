@@ -13,7 +13,7 @@ const Profile = () => {
     <ScrollView>
       <View style={styles.Profile_container}>
         <About />
-        <ShowUserData />
+        {ShowUserData ? <ShowUserData /> : null}
       </View>
     </ScrollView>
   );
