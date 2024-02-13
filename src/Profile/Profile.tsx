@@ -1,12 +1,11 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import ShowUploads from './ShowUploads';
-import ProfileSettings from './ProfileSettings';
+// import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
 import About from './About';
 import ShowUserData from '../../screens/ShowUserData';
 
-const STab = createMaterialTopTabNavigator();
+// const STab = createMaterialTopTabNavigator();
 
 const Profile = () => {
   return (
